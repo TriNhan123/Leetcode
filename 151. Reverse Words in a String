@@ -1,0 +1,33 @@
+class Solution(object):
+    def reverseWords(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        #can't do in-place since string in python is not mutable 
+        word = []
+        reverse = collections.deque() 
+        
+        #trim spaces at head and tail 
+        left = 0 
+        right = len(s)-1
+        while left <= right and s[left] == ' ': 
+                left += 1 
+        while left <= right and s[right] == ' ': 
+                right -= 1 
+                
+        #push chars from s to word then push word to reverse, empyt word
+        while left <= right: 
+            if s[left] == ' ' and word: 
+                reverse.appendleft(''.join(word))
+                word = []
+            elif s[left] != ' ':
+                word.append(s[left])
+            left += 1 
+            
+        #append the last word 
+        reverse.appendleft(''.join(word))
+
+        return ' '.join(reverse)
+                
+                
