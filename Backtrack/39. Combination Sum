@@ -1,0 +1,25 @@
+class Solution(object):
+    def combinationSum(self, candidates, target):
+        """
+        :type candidates: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        """
+        
+        n = len(candidates) 
+        candidates.sort()
+        self.result = [] 
+        self.backtrack(target, [], 0, 0, candidates)
+        return self.result 
+    
+    def backtrack(self, target, currentResult, currentSum, i, candidates): 
+        if currentSum == target: 
+            self.result.append(list(currentResult))
+            return 
+        
+        for i in range(i, len(candidates)):
+            if currentSum + candidates[i] > target: 
+                return 
+            currentResult.append(candidates[i])
+            self.backtrack(target, currentResult, currentSum + candidates[i], i, candidates)
+            currentResult.pop()
