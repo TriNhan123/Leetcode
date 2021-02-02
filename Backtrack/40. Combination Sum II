@@ -1,0 +1,27 @@
+class Solution(object):
+    def combinationSum2(self, candidates, target):
+        """
+        :type candidates: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        """
+        
+        n = len(candidates) 
+        ans = []
+        candidates.sort()
+        def backtrack(index, comb, currentSum): 
+            if currentSum == target: 
+                ans.append(list(comb))
+            for nextIndex in range(index, n): 
+                # neu thang truoc giong thang sau thi skip 
+                if nextIndex > index and candidates[nextIndex] == candidates[nextIndex - 1]: 
+                    continue
+                if currentSum + candidates[nextIndex] > target: 
+                    return 
+                else: 
+                    comb.append(candidates[nextIndex])
+                    backtrack(nextIndex + 1, comb, currentSum + candidates[nextIndex])
+                    comb.pop()
+        backtrack(0, [], 0)
+        return ans 
+        
