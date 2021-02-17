@@ -1,0 +1,22 @@
+class Solution:
+    def letterCasePermutation(self, S: str) -> List[str]:
+        n = len(S) 
+        result = [] 
+        
+        def backtrack(currentIdx, currentStr): 
+            if currentIdx == n: 
+                result.append(''.join(currentStr)) 
+                return 
+            if S[currentIdx].isalpha(): 
+                currentStr.append(S[currentIdx].upper())
+                backtrack(currentIdx + 1, currentStr) 
+                currentStr.pop() 
+                currentStr.append(S[currentIdx].lower())
+                backtrack(currentIdx + 1, currentStr) 
+                currentStr.pop()
+            else: 
+                currentStr.append(S[currentIdx])
+                backtrack(currentIdx + 1, currentStr) 
+                currentStr.pop()
+        backtrack(0, [])
+        return result 
