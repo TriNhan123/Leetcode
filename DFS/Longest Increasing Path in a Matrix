@@ -1,0 +1,49 @@
+class Solution:
+    def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
+        #No circle 
+        
+        ROWS, COLS = len(matrix), len(matrix[0])
+        directions = ((0, 1), (0, -1), (1, 0), (-1, 0))
+        
+        #Use a Hashtable to cache values, without it => time exceed 
+           #in our search if result of a cell calulated, we get it from the cache directly 
+           #otherwise, we calculate and cache it
+        dp = {} 
+        def dfs(r, c): 
+            res = 1 
+            if (r, c) in dp: 
+                return dp[(r, c)]
+            for dr, dc in directions: 
+                nr, nc = r + dr, c + dc 
+                if (nr < 0 or nr == ROWS or nc < 0 or nc == COLS or 
+                    matrix[nr][nc] <= matrix[r][c]): 
+                    continue
+                res = max(res, 1 + dfs(nr, nc))
+                dp[(r, c)] = res 
+            return res 
+            
+        res = 0
+        for r in range(ROWS):
+            for c in range(COLS):  
+                res = max(res, dfs(r, c))
+        return res
+        ------------------------------------------------------------------------------------------------------
+        #Replace Hashtable with @lru_cache, set to None so no expired 
+        @lru_cache(None)
+        def dfs(r, c): 
+            res = 1 
+            for dr, dc in directions: 
+                adj_r, adj_c = r + dr, c + dc 
+                if (0 <= adj_r < ROWS and 0 <= adj_c < COLS and 
+                    matrix[adj_r][adj_c] < matrix[r][c]): 
+                    res = max(res, 1 + dfs(adj_r, adj_c))
+                continue
+            return res 
+            
+        res = 0
+        for r in range(ROWS):
+            for c in range(COLS):  
+                res = max(res, dfs(r, c))
+        return res
+        
+        ---------------------------------------------------------------------------------------------------
