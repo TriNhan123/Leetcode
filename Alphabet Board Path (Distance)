@@ -3,8 +3,9 @@ class Solution:
          
         #calculate difference between current char: coor to targetChar: coor
             #y vs yO, x vs x0
-        #since "z" is in left bottom corner, we can't move R or D 
-            #if we need to move from "z" to another char, we have to move L or U first 
+        #since 'z' is in the left bottom corner, need to prioritize to move UP or LEFT first
+        #Then prioritize to move to the RIGHT second, 
+            #since from character v or w or x or y, we can't move down.
         #O(n) time and O(n) space 
             
         #build HashTable with char: coor 
@@ -14,14 +15,11 @@ class Solution:
         res = ""
         for c in target: 
             x, y = board[c] 
-            #move left 
             if y0 > y: res += 'L' * (y0 - y)
-            #move up 
-            if x0 > x: res += 'U' * (x0 - x) 
-            #move right 
-            if y0 < y: res += 'R' * (y - y0)
-            #move down 
-            if x0 < x: res += 'D' * (x - x0) 
+            if x0 > x: res += 'U' * (x0 - x)
+            if y0 < y: res += 'R' * (y - y0) #cant move R before U from 'z' 
+            if x0 < x: res += 'D' * (x - x0)
+                        
             #when x0 = x, y0 = y: 
             res += '!'
             #update coor: 
