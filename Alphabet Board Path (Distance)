@@ -1,0 +1,29 @@
+class Solution:
+    def alphabetBoardPath(self, target: str) -> str:
+         
+        #calculate difference between current char: coor to targetChar: coor
+            #y vs yO, x vs x0
+        #since "z" is in left bottom corner, we can't move R or D 
+            #if we need to move from "z" to another char, we have to move L or U first 
+        #O(n) time and O(n) space 
+            
+        #build HashTable with char: coor 
+        board = {char: [i // 5, i % 5] for i, char in enumerate(string.ascii_lowercase)}
+        #y vs target_y, x vs target_x 
+        x0, y0 = 0, 0 
+        res = ""
+        for c in target: 
+            x, y = board[c] 
+            #move left 
+            if y0 > y: res += 'L' * (y0 - y)
+            #move up 
+            if x0 > x: res += 'U' * (x0 - x) 
+            #move right 
+            if y0 < y: res += 'R' * (y - y0)
+            #move down 
+            if x0 < x: res += 'D' * (x - x0) 
+            #when x0 = x, y0 = y: 
+            res += '!'
+            #update coor: 
+            x0, y0 = x, y 
+        return res 
