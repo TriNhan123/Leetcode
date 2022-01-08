@@ -1,0 +1,31 @@
+class Solution:
+    def minimumEffortPath(self, heights: List[List[int]]) -> int:
+        #brute force: 
+            #take every path from 1 to 5, keep track of the min effort
+            #use distance between coordinates to move
+                #what's the order of moving U, D, L, R 
+                #since we start at 1, prioritize moving R, D then -> U, L 
+                #=> wrong since we need to explore many paths, not the shortest paths 
+                
+        #cache: for each cells on a path, it's value depends on: 
+            #the previous value of effort and current value of effort (current vs next) 
+            #current - previous vs 
+        #=> backtracking: TLE O(3^(mn))
+        ROWS, COLS = len(heights), len(heights[0])
+        directions = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+        def dfs(r, c, max_effort):   
+            if r == ROWS - 1 and c == COLS - 1:
+                return max_effort 
+            current_height = heights[r][c]
+            heights[r][c] = 0
+            min_effort = math.inf
+            for dr, dc in directions: 
+                nr, nc = r + dr, c + dc 
+                if 0 <= nr < ROWS and 0 <= nc < COLS and heights[nr][nc] != 0:
+                    #never update the max_effort in backtrack, update it in dfs return instead
+                    max_current_effort = max(max_effort, abs(heights[nr][nc] - current_height))
+                    min_effort = min(min_effort, dfs(nr, nc, max_current_effort))
+            heights[r][c] = current_height
+            return min_effort
+        return dfs(0, 0, 0)
+                    
