@@ -4,6 +4,7 @@ class Solution:
         board.reverse()
         def intToPost(square): 
             r = (square - 1) // n
+            #odd row: this is just swapping
             c = (square - 1) % n
             if r % 2: 
                 c = n - 1 - c 
