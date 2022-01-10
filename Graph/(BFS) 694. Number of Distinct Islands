@@ -1,0 +1,57 @@
+class Solution:
+    def numDistinctIslands(self, grid: List[List[int]]) -> int:
+        #BFS 
+        rows, cols = len(grid), len(grid[0])
+        visit = set() 
+        shape = set()
+        def bfs(r, c): 
+            isLand = []
+            q = collections.deque()
+            q.append((r, c))
+            while q: 
+                row, col = q.popleft() 
+                directions = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+                for dr, dc in directions: 
+                    r2, c2 = row + dr, col + dc 
+                    if (0 <= r2 < rows and 0 <= c2 < cols and 
+                        grid[r2][c2] == 1 and (r2, c2) not in visit): 
+                        #r, c in the big loop, not row, col in while loop
+                        isLand.append((r2 - r, c2 - c))
+                        q.append((r2, c2))
+                        visit.add((r2, c2))
+            shape.add(tuple(isLand))
+        for r in range(rows): 
+            for c in range(cols): 
+                if grid[r][c] == 1 and (r, c) not in visit: 
+                    bfs(r, c)
+        return len(shape) 
+----------------------------------------------------------------------------------------        
+class Solution:
+    def numDistinctIslands(self, grid: List[List[int]]) -> int:
+        #BFS 
+        rows, cols = len(grid), len(grid[0])
+        visit = set() 
+        shape = set()
+        def bfs(r, c): 
+            q = collections.deque()
+            q.append((r, c))
+            while q: 
+                row, col = q.popleft() 
+                directions = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+                for dr, dc in directions: 
+                    r2, c2 = row + dr, col + dc 
+                    if (0 <= r2 < rows and 0 <= c2 < cols and 
+                        grid[r2][c2] == 1 and (r2, c2) not in visit): 
+                        #isLand.add((r2 - r, c2 - c))
+                        isLand.append((r2 - r, c2 - c))
+                        q.append((r2, c2))
+                        visit.add((r2, c2))
+        for r in range(rows): 
+            for c in range(cols): 
+                if grid[r][c] == 1 and (r, c) not in visit:
+                    #isLand = set()
+                    isLand = []
+                    bfs(r, c)
+                    #shape.add(frozentset(isLand))
+                    shape.add(tuple(isLand))
+        return len(shape)
