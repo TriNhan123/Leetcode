@@ -1,0 +1,26 @@
+class Solution:
+    def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
+        ROWS, COLS = len(mat), len(mat[0])   
+        ans = [[0] * COLS for i in range(ROWS)]
+        q = deque([]) 
+        visit = set() 
+        for r in range(ROWS): 
+            for c in range(COLS): 
+                if mat[r][c] == 0: 
+                #gather all 0 cells at once
+                    q.append((r, c))
+                    visit.add((r, c))
+        dist = 0            
+        while q: 
+            for i in range(len(q)):
+                r, c = q.popleft()
+                #once we reach 1, save distance so far 
+                if mat[r][c] == 1: 
+                    ans[r][c] = dist
+                for rr, cc in [(r + 1, c), (r - 1, c), (r, c + 1), (r, c - 1)]: 
+                    if 0 > rr or rr == ROWS or 0 > cc or cc == COLS or (rr, cc) in visit: 
+                        continue 
+                    q.append((rr, cc))
+                    visit.add((rr, cc))
+            dist += 1 
+        return ans
