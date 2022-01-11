@@ -1,0 +1,45 @@
+class DSU:
+    def __init__(self):
+        self.parent = dict()
+        self.size = dict() 
+        self.n = 0 
+    #need this contains function since DSU itself is not iterable 
+    def __contains__(self, key): 
+        return key in self.parent 
+    def insert(self, r, c): 
+        if self.__contains__((r, c)): return  
+        self.parent[(r, c)] = (r, c) 
+        self.size[(r, c)] = 1 
+        #have a new island 
+        self.n += 1 
+    def find(self, x):
+        if x != self.parent[x]:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+
+    def union(self, x, y):
+        xr, yr = self.find(x), self.find(y)
+
+        if xr == yr: return False
+
+        if self.size[xr] < self.size[yr]:
+            xr, yr = yr, xr
+
+        self.size[xr] += self.size[yr]
+        self.size[yr] = self.size[xr]
+        self.parent[yr] = xr
+        #after we union, number of island decrease 
+        self.n -= 1 
+        return True
+class Solution:
+    def numIslands2(self, m: int, n: int, positions: List[List[int]]) -> List[int]:
+        dsu = DSU()
+        ans = []
+        for r, c in positions: 
+            dsu.insert(r, c) 
+            for rr, cc in [(r + 1, c), (r - 1, c), (r, c + 1), (r, c - 1)]:
+                if (rr, cc) not in dsu: continue 
+                dsu.union((r, c), (rr, cc))
+            ans.append(dsu.n)
+        return ans 
+            
