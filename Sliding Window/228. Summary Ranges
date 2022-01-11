@@ -7,9 +7,9 @@ class Solution:
             while j + 1 < len(nums) and nums[j] + 1 == nums[j + 1]: 
                 j += 1 
             if nums[j] != nums[i]: 
-                ans.append("".join(str(nums[i]) + "->" + str(nums[j])))
+                ans.append(str(nums[i]))
             else:
-                ans.append(str(nums[i]))  
+                ans.append("".join(str(nums[i]) + "->" + str(nums[j])))
             #increament j and i for new range 
             j += 1 
             i = j 
