@@ -1,0 +1,16 @@
+class Solution:
+    def summaryRanges(self, nums: List[int]) -> List[str]:
+        i, j = 0, 0
+        ans = []
+        while j < len(nums):   
+            #stretch j as much as we can 
+            while j + 1 < len(nums) and nums[j] + 1 == nums[j + 1]: 
+                j += 1 
+            if nums[j] != nums[i]: 
+                ans.append("".join(str(nums[i]) + "->" + str(nums[j])))
+            else:
+                ans.append(str(nums[i]))  
+            #increament j and i for new range 
+            j += 1 
+            i = j 
+        return ans
