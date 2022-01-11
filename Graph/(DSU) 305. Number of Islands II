@@ -42,4 +42,5 @@ class Solution:
                 dsu.union((r, c), (rr, cc))
             ans.append(dsu.n)
         return ans 
+        #O(k log(mn)) as UnionFind gives O(mn) time for each union operation
             
