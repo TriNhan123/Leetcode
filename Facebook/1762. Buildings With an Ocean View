@@ -1,0 +1,11 @@
+class Solution:
+    def findBuildings(self, heights: List[int]) -> List[int]:
+        #if traverse left to right: 
+        #use a stack to visit and remove the left building 
+        stack = [] 
+        for i, h in enumerate(heights): 
+            #remove every building on the left if invalid
+            while stack and heights[stack[-1]] <= h: 
+                stack.pop() 
+            stack.append(i)
+        return stack
