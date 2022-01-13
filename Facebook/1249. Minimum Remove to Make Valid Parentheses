@@ -1,0 +1,30 @@
+class Solution:
+    def minRemoveToMakeValid(self, s: str) -> str:
+        #lee<t<c>o>de>
+        #stack: if see a <, everything after that must be dfs(...), then close by > 
+        #balance number +1 when see <, -1 when see > 
+        #how to know which one to delete so that balance = 0? 
+        #can't choose random < or > since they need to be in order: < first then > second 
+        #=> put < into the stack, if see >, pop < out. 
+            #if stack empty then there's no < left => all > remains is invalid 
+            
+        index_to_remove = set()
+        stack = [] 
+        for i, ch in enumerate(s): 
+            if ch not in "()": 
+                continue 
+            if ch == "(": 
+                stack.append(i) 
+            #when stack is empty, all ) remaining in s is invalid 
+            elif not stack: 
+                index_to_remove.add(i)
+            else: 
+                stack.pop()
+        #when stack not empty, all ( remaining in stack is invalid 
+        index_to_remove = index_to_remove.union(set(stack))
+        res = []
+        for i, ch in enumerate(s): 
+            if i not in index_to_remove: 
+                res.append(ch)
+        return "".join(res)
+            
