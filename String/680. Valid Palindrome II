@@ -1,0 +1,35 @@
+class Solution:
+    def validPalindrome(self, s: str) -> bool:
+        #at most 1
+        #find the character that breaking palindrome 
+        #traverse and delete and not backtrack? 
+        #if l == r, l += 1, r - =1 
+        #if l != r: mark the position of l or r 
+        #check the remaining vs their reverse
+        
+        l, r = 0, len(s) - 1 
+        while l < r: 
+            if s[l] != s[r]: 
+                no_l_char = s[l + 1:r + 1]
+                no_r_char = s[l:r]
+                return no_l_char == no_l_char[::-1] or no_r_char == no_r_char[::-1]
+            l += 1 
+            r -= 1 
+        return True
+        -------------------------------------------------------------------------------
+ #remove k characters: 
+ class Solution:
+    def validPalindrome(self, s: str) -> bool:
+        return self.helper(s, 1)
+
+    def helper(self, s, k):
+        l, r = 0, len(s) - 1
+        while l < r:
+            if s[l] != s[r]:
+                if k == 0:
+                    return False
+                one, two = self.helper(s[l:r], k - 1), self.helper(s[l + 1: r + 1], k - 1)
+                return one or two
+            l += 1
+            r -= 1
+        return True
