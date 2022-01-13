@@ -1,0 +1,35 @@
+class SparseVector:
+    def __init__(self, nums: List[int]):
+        self.hashTable = collections.defaultdict()
+        for i, n in enumerate(nums): 
+            if n != 0: 
+                self.hashTable[i] = n
+
+    # Return the dotProduct of two sparse vectors
+    def dotProduct(self, vec: 'SparseVector') -> int:
+        ans = 0 
+        #optimize for follow up: choose vector with smaller length to traverse 
+        for index in vec.hashTable: 
+            if index in self.hashTable: 
+                ans += vec.hashTable[index]*self.hashTable[index]
+        return ans 
+-------------------------------------------------------------------------------------
+L: number of non-zero 
+Time: O(N) for creating Hashmap, O(L) to calculate dot Product
+Space: O(L) for creating Hashmap, O(1) to calculate 
+Note: hashing/lookups, while on surface look efficient, for large sparse vectors, 
+hashing function takes up bulk of the computation that we might be better off with using an array
+-------------------------------------------------------------------------------------
+class SparseVector:
+    def __init__(self, nums: List[int]):
+        self.array = nums 
+
+    # Return the dotProduct of two sparse vectors
+    def dotProduct(self, vec: 'SparseVector') -> int:
+        ans = 0
+        for i, n in enumerate(vec.array): 
+            ans += n * self.array[i]
+        return ans
+ -------------------------------------------------------------------------------------
+ Time: O(N) for creating array, calculating 
+ Space: O(1) since we only refer to index of input array, O(1) calculating 
