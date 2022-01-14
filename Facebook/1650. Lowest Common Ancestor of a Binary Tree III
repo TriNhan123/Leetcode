@@ -1,0 +1,55 @@
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+        self.parent = None
+"""
+
+class Solution:
+    def lowestCommonAncestor(self, p: 'Node', q: 'Node') -> 'Node':
+        #we alternating p and q whenever one of them = root
+        #they eventually share a common stop where both of them meet
+        #proof: distance between p and q is finite, because they in the same tree
+            #let's say for each alternate step, distance -= 2,
+            #for each child to parent step, distance += 1 
+            #eventually, distance = 0, that's when they meet
+            #why dont they meet at 2 instead of 5? 
+        
+        #fast and slow pointers: not easy to prove
+        p1, q1 = p, q
+        while p1 != q1: 
+            if p1.parent: 
+                p1 = p1.parent
+            else: 
+                p1 = q 
+            if q1.parent: 
+                q1 = q1.parent 
+            else: 
+                q1 = p 
+        return p1 
+-------------------------------------------------------------------------
+class Solution:
+    def lowestCommonAncestor(self, p: 'Node', q: 'Node') -> 'Node':
+        #calculate their distance from root
+        #move p and q to same level until same dist from root  
+        #we move p and q to its parent until met 
+        def distance_to_root(node): 
+            distance = 0 
+            while node.parent: 
+                node = node.parent
+                distance += 1 
+            return distance
+        dp, dq = distance_to_root(p), distance_to_root(q)
+        if dp > dq: 
+            for i in range(dp - dq):
+                p = p.parent 
+        else: 
+            for i in range(dq - dp): 
+                q = q.parent 
+        while p != q: 
+            p = p.parent 
+            q = q.parent 
+        return p 
