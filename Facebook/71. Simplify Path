@@ -1,0 +1,34 @@
+class Solution:
+    def simplifyPath(self, path: str) -> str:
+        stack = [] 
+        for portion in path.split("/"):
+            #check ".." first, only then we check stack
+            #not checking them at the same time. 
+            if portion == "..": 
+                if stack: 
+                    stack.pop() 
+            elif portion == "." or portion == "": 
+                continue 
+            else: 
+                stack.append(portion) 
+            print(stack)
+        return "/" + "/".join(stack)
+        ------------------------------------------------------
+ class Solution:
+    def simplifyPath(self, path: str) -> str:
+        #without stack
+        answer = ''
+        to_go_back = 0 # the number of directories to 'pop'
+        path = path.split('/')
+        for i in range(len(path)-1, -1, -1):
+            dir = path[i]
+            if dir == '' or dir == '.':
+                continue
+            elif dir == '..':
+                to_go_back += 1
+            elif to_go_back != 0: 
+            #if this is a real directory and we have directories we still need to pop, pop it
+                to_go_back -= 1
+            else:
+                answer = '/' + dir + answer
+        return answer if answer else '/' # if you're left with the empty string, return '/'
