@@ -1,0 +1,17 @@
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        #negative value allowed => can't use sliwind
+        #store the sub array sum in hashmap 
+        #sum[i] = sum at ith index 
+        #if sum[i] - sum[j] = k => found subarray = k between i, j 
+        #=> sums[i] - k = sums[j] -> increase our count 
+        sums = 0 
+        ans = 0  
+        hash_sums = dict() 
+        for n in nums: 
+            sums += n
+            if sums == k:
+                 ans += 1 
+            ans += hash_sums.get(sums - k, 0) 
+            hash_sums[sums] = hash_sums.get(sums, 0) + 1 
+        return ans 
