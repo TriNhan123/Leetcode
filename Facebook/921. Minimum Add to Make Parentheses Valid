@@ -1,0 +1,33 @@
+class Solution:
+    def minAddToMakeValid(self, s: str) -> int:
+        #add remaining in stack 
+        #add remaining in s 
+        open_stack = []
+        to_add = 0 
+        for i, c in enumerate(s): 
+            if c == "(":
+                open_stack.append(c)
+            elif not open_stack: 
+                to_add += 1 
+            else: 
+                open_stack.pop() 
+        for remain in open_stack: 
+            to_add += 1 
+        return to_add
+---------------------------------------------------
+
+class Solution:
+    def minAddToMakeValid(self, s: str) -> int:
+        balance = to_add = 0 
+        for c in s: 
+            if c == "(": 
+                balance += 1 
+            else: 
+                balance -= 1 
+            #whenever only ")" left, add 1 to balance 
+            if balance == -1: 
+                to_add += 1 
+                #since we add 1, balance -1 + 1 = 0 => balanaced 
+                balance += 1 
+            
+        return to_add + balance 
