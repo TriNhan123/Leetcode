@@ -1,0 +1,28 @@
+class Solution:
+    def nextPermutation(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        #find first consecutive number where left < right 
+        #swap it with the least bigger 
+        #since this number is bigger, the next to it should be smallest 
+        #hence, reverse 
+        
+        i = j = len(nums) - 1 
+        #find first num where i - 1 < i 
+        while i > 0 and nums[i - 1] >= nums[i]: 
+            i -= 1 
+        if i == 0:
+            nums.reverse()
+            return 
+        #find first num from the end that > nums[i - 1] 
+        while nums[j] <= nums[i - 1]: 
+            j -= 1 
+        #swap 
+        nums[i - 1], nums[j] = nums[j], nums[i - 1]
+        #reverse[i: end]
+        l, r = i, len(nums) - 1 
+        while l < r: 
+            nums[l], nums[r] = nums[r], nums[l]
+            l += 1 
+            r -= 1 
