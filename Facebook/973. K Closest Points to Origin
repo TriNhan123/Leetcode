@@ -1,0 +1,34 @@
+class Solution:
+    def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
+        #O(N log K) 
+        #max heap: space = O(K), use a K size heap
+        def getDistance(point): 
+            x = point[0]
+            y = point[1]
+            return math.sqrt(x*x + y*y)
+        maxHeap = []
+        for point in points:
+            d = -getDistance(point)
+            heapq.heappush(maxHeap, (d, point))
+            if len(maxHeap) > k: 
+                heapq.heappop(maxHeap)
+        return [point for _, point in maxHeap] 
+        
+----------------------------------------------------------------------------------
+class Solution:
+    def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
+        #min heap: make a min heap with n, pop k times, space = O(N)
+        def getDistance(point): 
+            x = point[0]
+            y = point[1]
+            return math.sqrt(x*x + y*y)
+        minHeap = [] 
+        for point in points: 
+            d = getDistance(point) 
+            minHeap.append([d, point])
+        heapify(minHeap)
+        ans = [] 
+        for i in range(k): 
+            _, point = heappop(minHeap) 
+            ans.append(point) 
+        return ans 
