@@ -6,7 +6,7 @@ class Node:
         self.left = left
         self.right = right
 """
-
+O(N) time, O(N) space 
 class Solution:
     def treeToDoublyList(self, root: 'Optional[Node]') -> 'Optional[Node]':
         #we need 2 node: first node of left subtree, last node 
@@ -37,7 +37,7 @@ class Solution:
         last.right = first
         first.left = last
         return first 
-        
-                    
-            
+----------------------------------------------------------------------------------                  
+O(N) time, O(H) space: https://leetcode.com/problems/convert-binary-search-tree-to-sorted-doubly-linked-list/discuss/473267/Clean-Python-divide-and-conquer-solution-with-thought-process
+divide and conquer method
                 
