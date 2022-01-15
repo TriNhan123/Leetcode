@@ -13,9 +13,9 @@ class Solution:
             return root
         ancestor_left = self.lowestCommonAncestor(root.left, p, q) 
         ancestor_right = self.lowestCommonAncestor(root.right, p, q)
-        #if we find p, q in left and right subtree: 
+        #if we find p, q in different subtree then root is their LCA: 
         if ancestor_left and ancestor_right: 
             return root 
         #they both exist in left or right subtree
-            #then their ancestor must be in left or right subtree
+            #then their LCA must exist in left or right subtree
         return ancestor_left or ancestor_right
