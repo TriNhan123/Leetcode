@@ -1,0 +1,43 @@
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+"""
+
+class Solution:
+    def treeToDoublyList(self, root: 'Optional[Node]') -> 'Optional[Node]':
+        #we need 2 node: first node of left subtree, last node 
+        #so we can link them after running convert 
+        
+        #save first node, and traverse tree using last node 
+        def convert(node): 
+            nonlocal last, first
+            if node: 
+                convert(node.left) 
+                #after running thro left_subtree
+                #we at the outter left node of this tree 
+                #now we link curr node with prev (last) node
+                if last: 
+                    last.right = node
+                    node.left = last
+                else: 
+                    #save first node of left subtr 
+                    first = node
+                last = node 
+                convert(node.right)
+                
+        if not root:
+            return None 
+        first, last = None, None 
+        convert(root) 
+        #close DLL
+        last.right = first
+        first.left = last
+        return first 
+        
+                    
+            
+                
