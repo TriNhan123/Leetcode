@@ -1,0 +1,33 @@
+class Solution:
+    def depthSum(self, nestedList: List[NestedInteger]) -> int:
+        # each nested obj has their own depth record
+        ans = 0 
+        q = deque([])
+        for nested in nestedList: 
+            q.append((nested, 1)) #Nested Obj, depth 
+        while q: 
+            nested_obj, depth = q.popleft() 
+            if nested_obj.isInteger(): 
+                ans += nested_obj.getInteger()*depth
+            else: 
+                nested_list = nested_obj.getList()
+                for i in nested_list: 
+                    q.append((i, depth + 1))
+        return ans
+------------------------------------------------------------------------
+class Solution:
+    def depthSum(self, nestedList: List[NestedInteger]) -> int:
+        #level traversal 
+        q = deque(nestedList) 
+        depth = 1 
+        ans = 0 
+        while q: 
+            for i in range(len(q)): 
+                nested = q.popleft() 
+                if nested.isInteger(): 
+                    ans += nested.getInteger() * depth
+                else: 
+                    for nested_list in nested.getList(): 
+                        q.append(nested_list)
+            depth += 1         
+        return ans
