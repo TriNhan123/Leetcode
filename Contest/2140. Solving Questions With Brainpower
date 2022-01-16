@@ -1,0 +1,12 @@
+class Solution:
+    def mostPoints(self, questions: List[List[int]]) -> int:
+        n = len(questions)
+        dp = [0] * (n + 1) 
+        for i in range(len(questions) - 1, -1, -1): 
+            point, jump = questions[i][0], questions[i][1]
+            #init first dp 
+            dp[i] = point
+            if i + jump + 1 < n: 
+                dp[i] = max(point + dp[i + jump + 1], dp[i + 1])
+            dp[i] = max(dp[i], dp[i + 1])
+        return dp[0]
