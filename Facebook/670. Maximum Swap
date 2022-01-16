@@ -1,5 +1,7 @@
 class Solution:
     def maximumSwap(self, num: int) -> int:
+        #At each digit, if there's a larger digit that occurs later, 
+        #we want the swap it with the largest such digit that occurs the latest.
         #map() : make int of every char in num 
         #list(): make a list out of that map 
         A = list(map(int, str(num)))
