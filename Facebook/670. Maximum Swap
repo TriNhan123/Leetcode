@@ -1,0 +1,16 @@
+class Solution:
+    def maximumSwap(self, num: int) -> int:
+        #map() : make int of every char in num 
+        #list(): make a list out of that map 
+        A = list(map(int, str(num)))
+        digitToIndex = {d: i for i, d in enumerate(A)}
+        for i, d in enumerate(A): 
+            #check each number from 9 to current digit
+            for larger in range(9, d, -1): 
+                if larger in digitToIndex: 
+                    #if that digit in later position, we swap
+                    larger_index = digitToIndex[larger]
+                    if larger_index > i: 
+                        A[i], A[larger_index] = A[larger_index], A[i] 
+                        return int("".join(map(str, A)))
+        return num
