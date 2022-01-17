@@ -1,0 +1,19 @@
+class Solution:
+    def exclusiveTime(self, n: int, logs: List[str]) -> List[int]:
+        ans = [0] * n
+        last = 0 
+        s = [] 
+        
+        for i, log in enumerate(logs): 
+            ID, action, time = log.split(":")
+            #time of next function + last is duration of stack's last function 
+            if action == "start": 
+                if s:
+                    ans[int(s[-1])] += int(time) - last 
+                last = int(time) 
+                s.append(ID)
+            else: 
+                ans[int(s[-1])] += int(time) - last + 1 
+                last = int(time) + 1 
+                s.pop() 
+        return ans
