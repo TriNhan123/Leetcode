@@ -1,0 +1,23 @@
+class Solution:
+    def groupStrings(self, strings: List[str]) -> List[List[str]]:
+#         a b c => b c d 
+#         hashtable of sequence 
+        
+#         abc bcd
+#         each letter diff = 1 
+#         for 3 letter: a d b xyz -> diff x 1 y 1 z 
+#                                 -> diff a 3 d 2 b 
+#         hashtable (diff between each letter) 
+#         problem coding this: 
+#             adding diff as key of hashtable while traveling through letter 
+#         sol: using tuple: key += (diff, )
+        
+        hash_diff = {}
+        for s in strings: 
+            key = ()
+            #0 - len(s) - 1
+            for i in range(len(s)): 
+                diff = (ord(s[i]) - ord(s[i - 1])) % 26 
+                key += (diff,)
+            hash_diff[key] = hash_diff.get(key, []) + [s]
+        return list(hash_diff.values())
