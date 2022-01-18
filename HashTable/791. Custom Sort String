@@ -1,0 +1,12 @@
+class Solution:
+    def customSortString(self, order: str, s: str) -> str:
+        #count char in s, write them as we traverse order
+        count_s = collections.Counter(s)
+        ans = [] 
+        for char in order: 
+            ans.append(char * count_s[char])
+            count_s[char] = 0 
+        for char in count_s: 
+            ans.append(char*count_s[char])
+        return "".join(ans)
+            
