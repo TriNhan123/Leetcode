@@ -16,16 +16,18 @@ class Solution:
         ------------------------------------------------------
  class Solution:
     def simplifyPath(self, path: str) -> str:
-        #without stack
+        #without stack 
         answer = ''
         to_go_back = 0 # the number of directories to 'pop'
         path = path.split('/')
         for i in range(len(path)-1, -1, -1):
             dir = path[i]
+            print(to_go_back)
             if dir == '' or dir == '.':
                 continue
             elif dir == '..':
                 to_go_back += 1
+            #when loop executed and goback != 0, we skip path[i] 
             elif to_go_back != 0: 
             #if this is a real directory and we have directories we still need to pop, pop it
                 to_go_back -= 1
