@@ -1,0 +1,20 @@
+class Solution:
+    def calculate(self, s: str) -> int:
+        #we need to add +0 here because
+        #in case * or /, we pop currNum before currNum get to s[-1]
+        s += '+0'
+        numberStack = [] 
+        operation = "+"
+        currNum = 0 
+        for char in s: 
+            print(numberStack, currNum)
+            if char.isdigit(): 
+                currNum = currNum * 10 + int(char)
+            elif not char.isspace(): 
+                if operation == "*" : numberStack.append(numberStack.pop() * currNum)
+                elif operation == "/": numberStack.append(int(numberStack.pop() / currNum))
+                elif operation == "-": numberStack.append(-currNum)
+                else: numberStack.append(currNum)
+                operation = char 
+                currNum = 0
+        return sum(numberStack)
