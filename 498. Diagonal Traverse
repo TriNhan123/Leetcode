@@ -1,0 +1,29 @@
+class Solution:
+    def findDiagonalOrder(self, mat: List[List[int]]) -> List[int]:
+        # 0 0 
+        # 0 1 1 0 
+        # 2 0 1 1 0 2
+        # 1 2 2 1 
+        # 2 2 
+        # same sum of r, c 
+            #=> store each number by dictionary of sum of indexes  
+    
+        index_sum = collections.defaultdict(list)
+        ROWS, COLS = len(mat), len(mat[0])
+        for r in range(ROWS):
+            for c in range(COLS): 
+                sumrc = r + c 
+                index_sum[sumrc].append(mat[r][c])
+        ans = [] 
+        for entry in index_sum.items(): 
+            if entry[0] % 2 == 0: 
+                for num in reversed(entry[1]):
+                    ans.append(num)
+            else: 
+                for num in entry[1]: 
+                    ans.append(num)
+        return ans 
+            
+            
+                    
+        
