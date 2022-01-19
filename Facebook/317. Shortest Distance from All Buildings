@@ -1,0 +1,39 @@
+class Solution:
+    def shortestDistance(self, grid: List[List[int]]) -> int:
+        #from house to land 
+        #record (distance, house reached) for every land (r, c) 
+        #also record a count building var for each building we visit
+        #if a land's reach != current building count 
+            #then not all 1s grid is connected 
+            #can't reach all 1s => -1 immediately 
+        if not grid:
+            return -1
+        ROWS, COLS = len(grid), len(grid[0])
+        def neighbors(row, col):
+            for i, j in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
+                r, c = row + i, col + j
+                if 0 <= r < ROWS and 0 <= c < COLS:
+                    yield r, c
+        dist_cnt = [[[0,0] for i in range(COLS)] for j in range(ROWS)]
+        def bfs(r, c, count_build):  
+            q = deque([(r, c, 0)])
+            while q: 
+                row, col, dist = q.popleft()
+                for nr, nc in neighbors(row, col): 
+                    if grid[nr][nc] == 0 and count_build == dist_cnt[nr][nc][1]: 
+                        dist_cnt[nr][nc][0] += dist + 1
+                        dist_cnt[nr][nc][1] += 1  
+                        q.append((nr, nc, dist + 1))
+                dist += 1
+        count_build = 0 
+        for r in range(ROWS): 
+            for c in range(COLS): 
+                if grid[r][c] == 1: 
+                    bfs(r, c, count_build)
+                    count_build += 1 
+        ans = float("inf")
+        for r in range(ROWS): 
+            for c in range(COLS): 
+                if grid[r][c] == 0 and dist_cnt[r][c][1] == count_build: 
+                    ans = min(ans, dist_cnt[r][c][0])
+        return ans if ans < float("inf") else -1
