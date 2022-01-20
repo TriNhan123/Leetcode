@@ -1,0 +1,26 @@
+class Solution:
+    def addStrings(self, num1: str, num2: str) -> str:
+        #add from right to left 
+        i = len(num1) - 1 
+        j = len(num2) - 1 
+        ans = []
+        mem = 0 
+        
+        while i >= 0 or j >= 0: 
+            if i >= 0: 
+                x1 = ord(num1[i]) - ord('0')
+            else: 
+                x1 = 0 
+            if j >= 0: 
+                x2 = ord(num2[j]) - ord('0')
+            else: 
+                x2 = 0 
+            add = (x1 + x2 + mem) % 10 
+            mem = (x1 + x2 + mem) // 10
+            ans.append(add)
+            i -= 1 
+            j -= 1 
+        if mem: 
+            ans.append(mem) 
+        print(ans)
+        return "".join(str(x) for x in ans[::-1])
