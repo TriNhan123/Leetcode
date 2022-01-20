@@ -1,0 +1,29 @@
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
+        self.val = int(x)
+        self.next = next
+        self.random = random
+"""
+
+class Solution:
+    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        #want to create a node before random or next can point to 
+        #visit node
+            #add node into hash map
+                #we can initialize hashmap with default FUNCTION node
+                #each key of hashmap is a node 
+            #point hashed node's next to another hashed node 
+                #not the original next node  
+            #visit node's next
+        #what if we need a NULL node to point to but we don't have it 
+        storeCopyNode = defaultdict(lambda: Node(0))
+        storeCopyNode[None] = None 
+        curr = head 
+        while curr: 
+            storeCopyNode[curr].val = curr.val
+            storeCopyNode[curr].next = storeCopyNode[curr.next]
+            storeCopyNode[curr].random = storeCopyNode[curr.random] 
+            curr = curr.next 
+        return storeCopyNode[head]
