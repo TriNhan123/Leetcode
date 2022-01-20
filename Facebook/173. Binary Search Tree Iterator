@@ -1,0 +1,25 @@
+class BSTIterator:
+    def __init__(self, root: Optional[TreeNode]):
+        # after call next, pointer move to smallest number
+        # which mean we need to store left most node in a stack 
+        # idea is go left until we can't 
+        # then backtrack, return node's val then go right 
+        # => DFS to find all left nodes
+            # => use a stack to store them, when DFS stop, 
+            # => backtrack: we pop from stack and go right
+        #Example: 7 -> 3 -> null 
+            # pop 3, go right -> null 
+            # pop 7, go right -> 15 
+        self.node = root 
+        self.stack = []
+    def next(self) -> int:
+        while self.node: 
+            self.stack.append(self.node) 
+            self.node = self.node.left
+        #when we at leaves, back track to stack
+        self.node = self.stack.pop() 
+        nodeVal = self.node.val
+        self.node = self.node.right 
+        return nodeVal
+    def hasNext(self) -> bool:
+        return self.stack or self.node 
