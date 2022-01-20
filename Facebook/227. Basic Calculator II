@@ -1,13 +1,18 @@
 class Solution:
     def calculate(self, s: str) -> int:
-        #we need to add +0 here because
-        #in case * or /, we pop currNum before currNum get to s[-1]
-        s += '+0'
+        #we need to add s += '+' here so that * happens in the loop
+        #if char reach s[-1], * do nothing 
+            #in case * and char at s[-1], 
+            #example: 3+2*4: [3, 2] 0 * 4 => [3, 2]
+                #currNum at 0, char at 4 
+        #ensures all processing happens in loop...
+        #else we need to write an condition outside to take care of last number
+        s += '+'
         numberStack = [] 
         operation = "+"
         currNum = 0 
         for char in s: 
-            print(numberStack, currNum)
+            # print(numberStack, currNum, operation, char)
             if char.isdigit(): 
                 currNum = currNum * 10 + int(char)
             elif not char.isspace(): 
