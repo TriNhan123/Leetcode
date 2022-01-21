@@ -7,3 +7,32 @@ class Solution:
             else: 
                 stack.pop() 
         return "".join(stack)
+-----------------------------------------------
+class Solution:
+    def removeDuplicates(self, s: str) -> str:
+#         abbaca
+#         we move whole palindrome? 
+#         cc is a palindrome 
+#         ccca => remove cc 
+#         i i + 1 
+#         i - 1 and i + 2 
+#         abbaca
+#         to_remove [1, 2]
+        
+        to_remove = set()
+        left, right = 0, 1 
+        for i in range(len(s)):
+            if i in to_remove:
+                continue 
+            while i - left >= 0 and i + right < len(s) and s[i - left] == s[i + right]: 
+                to_remove.add(i - left) 
+                to_remove.add(i + right) 
+                left += 1 
+                right += 1 
+            left = 0 
+            right = 1 
+        ans = []
+        for i, ch in enumerate(s): 
+            if i not in to_remove: 
+                ans.append(ch) 
+        return "".join(ans)
