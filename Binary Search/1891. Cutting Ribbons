@@ -1,0 +1,27 @@
+class Solution:
+    def maxLength(self, ribbons: List[int], k: int) -> int:
+#         length 1, each ribbon can be n * 1 
+#         length 2, sums(each ribbon is n//2) > k 
+#             => this is valid length for k 
+#         length 3, each 
+#         lenght 4, 
+#         length of max(ribbons) 
+#         for each length, we do it for n times 
+#         O(max length possible * n)
+#         worse case of this is n^2 
+#         7 5 9 
+#         if mid length >= k, then we search on right array
+        #binary search on answer 
+        
+        if k > sum(ribbons):
+            return 0 
+        n = len(ribbons) 
+        right = min(max(ribbons), sum(ribbons))
+        left = 1
+        while left <= right: 
+            mid = (left + right) // 2 
+            if sum(x // mid for x in ribbons) >= k: 
+                left = mid + 1 
+            else: 
+                right = mid - 1 
+        return right
