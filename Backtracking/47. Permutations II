@@ -1,0 +1,25 @@
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        nums = sorted(nums)
+        
+        def permute(nums):
+            ans = []
+            if len(nums) == 0: 
+                return [nums[:]]
+            prev = float("inf")
+            for i in range(len(nums)): 
+                n = nums.pop(0)
+                #check with the last pop n to avoid dupl
+                if n != prev: 
+                    #calculate perm of n-1 element
+                    perms = permute(nums)
+                    #then add n into each perm
+                    for perm in perms:
+                        perm.append(n) 
+                    ans.extend(perms)
+                #save n to prev
+                prev = n 
+                #add n to the last 
+                nums.append(n)
+            return ans
+        return permute(nums)
