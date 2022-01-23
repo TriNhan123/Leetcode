@@ -1,0 +1,20 @@
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        #think of how we go from 123 to 231 or 321 to 23 or 32 to 2 or 3 
+        #not like subset where we 2 different choices 
+        #remove first num, perm(n - 1), then add num to each perm 
+        ans = []
+        if len(nums) == 0: 
+            return [nums[:]]
+            
+        for i in range(len(nums)): 
+            n = nums.pop(0)
+            #calculate perm of n-1 element
+            perms = self.permute(nums)
+            #then add n into each perm
+            for perm in perms:
+                perm.append(n) 
+            ans.extend(perms)
+            #add n to the last 
+            nums.append(n)
+        return ans 
