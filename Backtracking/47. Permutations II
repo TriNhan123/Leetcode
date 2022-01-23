@@ -23,3 +23,25 @@ class Solution:
                 nums.append(n)
             return ans
         return permute(nums)
+--------------------------------------------------------------
+Without sorting: 
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        count = collections.Counter(nums) 
+        perm = []
+        ans = [] 
+        def dfs(): 
+            if len(perm) == len(nums):
+                ans.append(perm.copy())
+                return 
+            for n in count: 
+                if count[n] > 0: 
+                    perm.append(n) 
+                    count[n] -= 1 
+                    
+                    dfs()
+                    
+                    perm.pop()
+                    count[n] += 1 
+        dfs()
+        return ans 
