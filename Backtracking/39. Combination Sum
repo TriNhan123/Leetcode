@@ -1,0 +1,21 @@
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+         
+        comb = []
+        ans = []
+        def dfs(i, total): 
+            if total == target: 
+                ans.append(comb.copy())
+                return 
+            if i >= len(candidates) or total > target: 
+                return 
+            #keep including i 
+            comb.append(candidates[i])
+            dfs(i, total + candidates[i])
+            
+            #only when we can't include i, we try i + 1 
+            comb.pop()
+            dfs(i + 1, total) 
+        
+        dfs(0, 0)
+        return ans
