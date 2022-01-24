@@ -22,3 +22,26 @@ class Solution:
         
         dfs(0, 0)
         return ans 
+------------------------------------------------------
+#A more general approach 
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        canidates = candidates.sort() 
+        comb = [] 
+        ans = [] 
+        def dfs(i, total): 
+            if total == target: 
+                ans.append(comb.copy())
+                return 
+            if total > target: 
+                return 
+            prev = -1
+            for next_i in range(i, len(candidates)): 
+                if candidates[next_i] == prev:
+                    continue 
+                comb.append(candidates[next_i])
+                dfs(next_i + 1, total + candidates[next_i]) 
+                comb.pop()
+                prev = candidates[next_i]
+        dfs(0, 0)
+        return ans
