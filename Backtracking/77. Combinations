@@ -2,11 +2,11 @@ class Solution:
     def combine(self, n: int, k: int) -> List[List[int]]:
         ans = [] 
         comb = []
-        
         def dfs(i, count): 
             if count == k: 
                 ans.append(comb.copy())
                 return 
+                
             if i + 1 >= n + 2:
                 return 
             comb.append(i) 
@@ -15,3 +15,20 @@ class Solution:
             dfs(i + 1, count)
         dfs(1, 0)
         return ans 
+-----------------------------------------------------------
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        ans = [] 
+        comb = []
+        
+        def dfs(i): 
+            if len(comb) == k: 
+                ans.append(comb.copy())
+                return 
+                
+            for next_i in range(i, n + 1): 
+                comb.append(next_i)
+                dfs(next_i + 1) 
+                comb.pop()
+        dfs(1)
+        return ans
