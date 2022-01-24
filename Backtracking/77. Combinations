@@ -1,0 +1,17 @@
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        ans = [] 
+        comb = []
+        
+        def dfs(i, count): 
+            if count == k: 
+                ans.append(comb.copy())
+                return 
+            if i + 1 >= n + 2:
+                return 
+            comb.append(i) 
+            dfs(i + 1, count + 1) 
+            comb.pop()
+            dfs(i + 1, count)
+        dfs(1, 0)
+        return ans 
