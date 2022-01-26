@@ -1,0 +1,16 @@
+class Solution:
+    def longestConsecutive(self, root: Optional[TreeNode]) -> int:
+        def traverse(node, parent, length): 
+            #extend length if we can 
+            #else reset to 1, do the same for left and right 
+            #return the max current length to parent node
+            if not node:
+                return length
+            if parent and node.val == parent.val + 1:
+                length += 1 
+            else: 
+                length = 1 
+            left = traverse(node.left, node, length)
+            right = traverse(node.right, node, length) 
+            return max(length, left, right) 
+        return traverse(root, None, 0)
