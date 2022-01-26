@@ -26,3 +26,44 @@ class Solution:
             path_d.pop()
         
         return "".join("U" * len(path_s)) + "".join(reversed(path_d))
+-----------------------------------------------------------------------------
+Google find path in 1 iteration: 
+class Solution:
+
+    def dfs(self, root, tarv):
+        stk = [root]
+        path = []
+        visited = set()
+        p = root
+        
+        while stk:
+            if p and p.val == tarv:
+                return path
+            if p.left and p.left not in visited:
+                stk.append(p)
+                path.append('L')
+                p = p.left
+            elif p.right and p.right not in visited:
+                stk.append(p)
+                path.append('R')
+                p = p.right
+            else:
+                visited.add(p)
+                path.pop()
+                p = stk.pop()
+        
+        
+    def getDirections(self, root: Optional[TreeNode], startValue: int, destValue: int) -> str:
+        st_path = self.dfs(root, startValue)
+        en_path = self.dfs(root, destValue)
+        
+        i = 0
+        while i < min(len(st_path), len(en_path)):
+            if st_path[i] != en_path[i]:
+                break
+            i += 1
+        
+        cmn_path = st_path[:i]
+        
+        res = 'U'*(len(st_path)-i) + ''.join(en_path[i:])
+        return res
