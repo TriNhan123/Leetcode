@@ -14,6 +14,7 @@ class Solution:
                 path.append("L")
             elif root.right and findPath(root.right, v, path):
                 path.append("R")
+            #if path empty, return true
             return path 
             
         path_s, path_d = [], []
