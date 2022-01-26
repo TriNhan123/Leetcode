@@ -1,0 +1,19 @@
+class Solution:
+    def findDuplicateSubtrees(self, root: Optional[TreeNode]) -> List[Optional[TreeNode]]:
+        structure_node = defaultdict(list)
+        def traverse(node): 
+            if not node:
+                return "N"
+            #serialize
+            structure = str(node.val) + "," + traverse(node.left) + "," + traverse(node.right) 
+            
+            #add to hash_map
+            structure_node[structure].append(node)
+            
+            return structure 
+        traverse(root) 
+        ans = []
+        for structure in structure_node: 
+            if len(structure_node[structure]) > 1:
+                ans.append(structure_node[structure][0]) 
+        return ans
