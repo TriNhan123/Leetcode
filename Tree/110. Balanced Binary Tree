@@ -11,3 +11,18 @@ class Solution:
         if abs(left - right) > 1: 
             return False 
         return self.isBalanced(root.left) and self.isBalanced(root.right)
+-------------------------------------------------------------------------------
+class Solution:
+    def isBalanced(self, root: Optional[TreeNode]) -> bool: 
+        return self.BalancedDepth(root)[0]
+    def BalancedDepth(self, node): 
+        if not node:
+            return True, 0 
+        leftB, leftD = self.BalancedDepth(node.left) 
+        rightB, rightD = self.BalancedDepth(node.right) 
+        if not leftB: 
+            return False, 0 
+        if not rightB:
+            return False, 0 
+        diff = abs(leftD - rightD) < 2 
+        return diff, 1 + max(leftD, rightD) 
