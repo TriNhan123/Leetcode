@@ -1,0 +1,15 @@
+class Solution:
+    def countUnivalSubtrees(self, root: Optional[TreeNode]) -> int:
+        def unival(node, parent): 
+            nonlocal count
+            if not node: return True 
+            left = unival(node.left, node.val)
+            right = unival(node.right, node.val) 
+             
+            if not all([left, right]): return False 
+            count += 1 
+            return node.val == parent 
+            
+        count = 0  
+        unival(root, 0)
+        return count 
