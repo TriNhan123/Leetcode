@@ -8,4 +8,24 @@ class Solution:
             if node1.val == node2.val: 
                 return dfs(node1.left, node2.right) and dfs(node1.right, node2.left)
             return False 
-        return dfs(root, root)
+        if not root:
+            return True
+        return dfs(root.left, root.right)
+-------------------------------------------------------------------------------------
+class Solution:
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        if not root:
+            return True
+        q = deque([(root.left, root.right)])
+        while q: 
+            print(q)
+            node1, node2 = q.popleft() 
+            if not node1 and not node2: 
+                continue
+            if not node1 or not node2: 
+                return False 
+            if node1.val != node2.val: 
+                return False 
+            q.append((node1.left, node2.right))
+            q.append((node1.right, node2.left))
+        return True
