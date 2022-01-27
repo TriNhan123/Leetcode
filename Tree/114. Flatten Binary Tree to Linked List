@@ -1,0 +1,16 @@
+class Solution:
+    def flatten(self, root: Optional[TreeNode]) -> None:
+        #flat root and return last node of subtree
+        def flat(root):
+            if not root:
+                return None 
+            leftTail = flat(root.left)
+            rightTail = flat(root.right) 
+            if leftTail: 
+                leftTail.right = root.right 
+                root.right = root.left
+            root.left = None 
+            
+            last = rightTail or leftTail or root 
+            return last
+        flat(root)
