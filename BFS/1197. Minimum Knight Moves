@@ -1,0 +1,32 @@
+class Solution:
+    def minKnightMoves(self, x: int, y: int) -> int:
+        #bidirectional BFS, 1 knights go from orgin, the other go from target
+        def move(r, c): 
+            offsets = [(1, 2), (2, 1), (2, -1), (1, -2),
+                   (-1, -2), (-2, -1), (-2, 1), (-1, 2)]
+            for x, y in offsets: 
+                rr, cc = r + x, c + y 
+                yield rr, cc
+        
+        origin_q = deque([(0, 0, 0)])
+        origin_dist = {(0, 0): 0}
+        target_q = deque([(x, y, 0)])
+        target_dist = {(x, y): 0}
+        while True: 
+            #check if 2 knights met 
+            or_r, or_c, or_steps = origin_q.popleft() 
+            if (or_r, or_c) in target_dist: 
+                return or_steps + target_dist[(or_r, or_c)]
+            tar_r, tar_c, tar_steps = target_q.popleft() 
+            if (tar_r, tar_c) in origin_dist: 
+                return tar_steps + origin_dist[(tar_r, tar_c)]
+                
+            for next_or_r, next_or_c in move(or_r, or_c): 
+                if (next_or_r, next_or_c) not in origin_dist: 
+                    origin_q.append((next_or_r, next_or_c, or_steps + 1))
+                    origin_dist[(next_or_r, next_or_c)] = or_steps + 1
+            for next_tar_r, next_tar_c in move(tar_r, tar_c): 
+                if (next_tar_r, next_tar_c) not in target_dist: 
+                    target_q.append((next_tar_r, next_tar_c, tar_steps + 1))
+                    target_dist[(next_tar_r, next_tar_c)] = tar_steps + 1
+        return -1
