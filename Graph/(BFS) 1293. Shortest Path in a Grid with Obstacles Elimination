@@ -1,0 +1,26 @@
+class Solution:
+    def shortestPath(self, grid: List[List[int]], k: int) -> int:
+        ROWS, COLS = len(grid), len(grid[0])
+        def neighbors(r, c): 
+            for rr, cc in [(r + 1, c), (r - 1, c), (r, c + 1), (r, c - 1)]:
+                if 0 <= rr < ROWS and 0 <= cc < COLS: 
+                    yield rr, cc
+             
+        if k >= ROWS + COLS - 2: return ROWS + COLS - 2 #check Mathattan Distance 
+        
+        q = deque([(0, 0, k)])
+        visit = set() 
+        step = 0 
+        while q: 
+            for _ in range(len(q)): 
+                r, c, k = q.popleft() 
+                if (r, c) == (ROWS -1, COLS - 1):
+                    return step 
+                for rr, cc in neighbors(r, c): 
+                    newK = k - grid[rr][cc] #destroy all the closest obstacle if can 
+                    newState = (rr, cc, newK)
+                    if newK >= 0 and newState not in visit: 
+                        q.append(newState)
+                        visit.add(newState)
+            step += 1 
+        return -1 
