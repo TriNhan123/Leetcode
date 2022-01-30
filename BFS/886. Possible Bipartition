@@ -1,0 +1,21 @@
+class Solution:
+    def possibleBipartition(self, n: int, dislikes: List[List[int]]) -> bool:
+        group = defaultdict(int) 
+        adj = defaultdict(list)
+        for u, v in dislikes: 
+            adj[u].append(v)
+            adj[v].append(u)
+        for i in range(1, n + 1): 
+            if i not in group: 
+                group[i] = 1 
+                q = deque([i])
+                while q: 
+                    person = q.popleft() 
+                    for hate_person in adj[person]: 
+                        if hate_person in group: 
+                            if group[hate_person] == group[person]:
+                                return False 
+                        else: 
+                            group[hate_person] = -group[person]
+                            q.append(hate_person)
+        return True 
