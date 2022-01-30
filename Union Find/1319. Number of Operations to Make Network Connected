@@ -1,0 +1,32 @@
+class DSU:
+    def __init__(self, N):
+        self.parent = list(range(N))
+        self.size = [1] * N
+
+    def find(self, x):
+        if x != self.parent[x]:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+
+    def union(self, x, y):
+        xr, yr = self.find(x), self.find(y)
+
+        if xr == yr: return False
+
+        if self.size[xr] < self.size[yr]:
+            xr, yr = yr, xr
+
+        self.size[xr] += self.size[yr]
+        self.size[yr] = self.size[xr]
+        self.parent[yr] = xr
+        return True
+
+class Solution:
+    def makeConnected(self, n: int, connections: List[List[int]]) -> int:
+        if len(connections) < n - 1: return - 1
+        component = n 
+        dsu = DSU(n)
+        for u, v in connections: 
+            if dsu.union(u, v): 
+                component -= 1 
+        return component - 1
