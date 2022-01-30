@@ -1,0 +1,26 @@
+class Solution:
+    def makeConnected(self, n: int, connections: List[List[int]]) -> int:
+        def bfs(i): 
+            q = deque([i])
+            while q: 
+                node = q.popleft() 
+                for neighbor in adj[node]: 
+                    if neighbor not in visit: 
+                        visit.add(neighbor) 
+                        q.append(neighbor)
+
+        if len(connections) < n - 1: return - 1 
+        
+        adj = defaultdict(list) 
+        for u, v in connections: 
+            adj[u].append(v) 
+            adj[v].append(u) 
+        
+        total_components = 0 
+        visit = set() 
+        for i in range(n): 
+            if i not in visit: 
+                visit.add(i)
+                bfs(i) 
+                total_components += 1 
+        return total_components - 1
