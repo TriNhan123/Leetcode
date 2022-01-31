@@ -1,0 +1,35 @@
+class Solution:
+    def longestStrChain(self, words: List[str]) -> int: 
+        #DFS memo 
+        wordSet = set(words) 
+        memo = defaultdict(int) 
+        def dfs(word): 
+            maxLength = 1 
+            if word in memo: 
+                return memo[word]
+            for i in range(len(word)): 
+                newWord = word[ : i] + word[i + 1 : ]
+                if newWord in wordSet: 
+                    maxLength = max(1 + dfs(newWord), maxLength)
+            memo[word] = maxLength 
+            return maxLength 
+        res = 0
+        for word in words: 
+            res = max(res, dfs(word))
+        return res 
+-------------------------------------------------------------
+#bottom up Dp 
+class Solution:
+    def longestStrChain(self, words: List[str]) -> int: 
+        #Bottom up DP 
+        words.sort(key = len) 
+        dp = defaultdict(int) 
+        ans = 0
+        for word in words: 
+            dp[word] = 1
+            for i in range(len(word)): 
+                newWord = word[ : i] + word[i + 1 : ]
+                if newWord in words: 
+                    dp[word] = max(dp[word], 1 + dp[newWord])
+                ans = max(ans, dp[word])
+        return ans 
