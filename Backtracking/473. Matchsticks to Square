@@ -1,0 +1,22 @@
+class Solution:
+    def makesquare(self, matchsticks: List[int]) -> bool:
+        #1: 1, 1, 2 => not a square 
+        #2: 1, 1, 2, 2, 2
+        n = len(matchsticks)
+        length = sum(matchsticks) // 4
+        if sum(matchsticks) /4 != length:
+            return False 
+        side = [0] * 4
+        matchsticks.sort(reverse = True) 
+        def dfs(i): 
+            if i == n: 
+                return True 
+            for j in range(4):
+                if side[j] + matchsticks[i] <= length: 
+                    side[j] += matchsticks[i]
+                    if dfs(i + 1): 
+                        return True
+                    side[j] -= matchsticks[i]
+            return False 
+        
+        return dfs(0)
