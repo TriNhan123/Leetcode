@@ -1,0 +1,18 @@
+class Solution:
+    def findDifferentBinaryString(self, nums: List[str]) -> str:
+        nums = set(nums)
+        n = len(nums) 
+        unique = []
+        res = []
+        def dfs(): 
+            if len(unique) == n:    
+                res = "".join(unique) 
+                return None if res in nums else res 
+            
+            #try out choices, if not valid, backtrack
+            for c in ["0", "1"]: 
+                unique.append(c) 
+                if dfs(): 
+                    return dfs() 
+                unique.pop() 
+        return dfs()
