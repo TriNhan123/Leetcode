@@ -1,0 +1,31 @@
+class MovingAverage:
+    #DOUBLE-ENDED QUEUE
+    def __init__(self, size: int):
+        self.q = deque()
+        self.n = size
+        self.total = 0 
+    def next(self, val: int) -> float: 
+        self.q.append(val)
+        if len(self.q) > self.n: 
+            self.total = self.total - self.q.popleft() + val
+        else: 
+            self.total += val 
+        return self.total / min(self.n, len(self.q))
+-----------------------------------------------------------------
+class MovingAverage:
+    #Circular Queue with Array 
+    def __init__(self, size: int):
+        self.n = size
+        self.q = [0] * self.n
+        self.head = 0 
+        self.total = 0 
+        self.count = 0 
+    def next(self, val: int) -> float: 
+        self.count += 1 
+        tail = (self.head + 1) % self.n 
+        
+        self.total = self.total - self.q[tail] + val 
+        self.head = (self.head + 1) % self.n #eat the current tail and move to next head
+        self.q[self.head] = val
+        
+        return self.total / min(self.n, self.count) 
