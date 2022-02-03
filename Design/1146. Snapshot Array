@@ -1,0 +1,33 @@
+class SnapshotArray:
+    def __init__(self, length: int):
+        self.snapId = 0 
+        self.A = []
+        for i in range(length): 
+            self.A.append([[0, 0]])
+
+    def set(self, index: int, val: int) -> None:
+        curr = self.A[index]
+        if curr[-1][1] == self.snapId: 
+            self.A[index][-1] = [val, self.snapId]
+        else: 
+            self.A[index].append([val, self.snapId])
+            
+    def snap(self) -> int:
+        curr = self.snapId 
+        self.snapId += 1 
+        return curr 
+
+    def get(self, index: int, snap_id: int) -> int:
+        #BS to find correct snap_id
+        currList = self.A[index]
+        l, r = 0, len(currList) - 1 
+        while l <= r: 
+            mid = (l + r) // 2 
+            val, s_id = currList[mid]
+            if s_id == snap_id: 
+                return val
+            elif s_id < snap_id: 
+                l = mid + 1 
+            else: 
+                r = mid - 1 
+        return currList[min(l, r)][0]
