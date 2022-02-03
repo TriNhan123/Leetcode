@@ -1,13 +1,15 @@
 class SnapshotArray:
     def __init__(self, length: int):
         self.snapId = 0 
-        self.A = []
+        self.A = [] #a list of (value, snapId)s for each index 
         for i in range(length): 
             self.A.append([[0, 0]])
 
     def set(self, index: int, val: int) -> None:
         curr = self.A[index]
-        if curr[-1][1] == self.snapId: 
+        #only add new snapId if set() is called after a new snap() call
+        #if same snap() call, change value at that snapId 
+        if curr[-1][1] == self.snapId:
             self.A[index][-1] = [val, self.snapId]
         else: 
             self.A[index].append([val, self.snapId])
@@ -31,3 +33,32 @@ class SnapshotArray:
             else: 
                 r = mid - 1 
         return currList[min(l, r)][0]
+-----------------------------------------------------------------
+class SnapshotArray(object):
+
+    def __init__(self, length):
+        self.snapp=0
+        self.arr={i:[0,{}] for i in range(length)}   #i:[value,{snaps}]
+        self.monitor=[] #This helps prevents it from exceeding time limit 
+        
+
+    def set(self, index, val):
+        self.arr[index][0]=val
+        if index not in self.monitor:
+            self.monitor.append(index)
+        
+
+    def snap(self):
+        snap_id=self.snapp
+        for i in self.monitor:   #Only snap item that has been set
+            self.arr[i][1][snap_id]=self.arr[i][0]
+        self.snapp+=1
+        return snap_id
+        
+
+    def get(self, index, snap_id):
+        try:
+            val=self.arr[index][1][snap_id]
+        except:
+            return 0
+        return val
