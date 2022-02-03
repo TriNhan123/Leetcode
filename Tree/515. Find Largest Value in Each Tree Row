@@ -1,0 +1,17 @@
+class Solution:
+    def largestValues(self, root: Optional[TreeNode]) -> List[int]:
+        if not root: 
+            return []
+        q = deque([(root)])
+        ans = []
+        while q: 
+            maxRow = float("-inf")
+            for _ in range(len(q)):
+                node = q.popleft() 
+                maxRow = max(maxRow, node.val) 
+                if node.left: 
+                    q.append(node.left) 
+                if node.right: 
+                    q.append(node.right) 
+            ans.append(maxRow) 
+        return ans
