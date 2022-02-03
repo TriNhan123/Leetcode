@@ -1,0 +1,23 @@
+class Solution:
+    def str2tree(self, s: str) -> Optional[TreeNode]:
+        def dfs(i): 
+            start = i 
+            while i < len(s) and (s[i] == '-' or s[i].isdigit()): 
+                i += 1 
+            num = int(s[start:i])
+            node = TreeNode(num)
+            
+            if i < len(s) and s[i] == "(": 
+                i += 1 #skip "("
+                node.left, i = dfs(i) #return the end of left subtree
+                i += 1 #skip ")"
+            if i < len(s) and s[i] == "(": 
+                i += 1 #skip "("
+                node.right, i = dfs(i) 
+                i += 1 #skip ")"
+            return node, i
+        
+        if not s or len(s) == 0:
+            return None
+        root, _ = dfs(0)
+        return root
