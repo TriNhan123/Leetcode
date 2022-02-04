@@ -18,7 +18,7 @@ class Solution:
                 return visit[c]
             visit[c] = True 
             for nei in adj[c]: 
-                if dfs(nei):
+                if dfs(nei):    #cycle detected
                     return True 
             visit[c] = False 
             res.append(c) 
