@@ -11,14 +11,14 @@ class Solution:
                 if w1[j] != w2[j]: 
                     adj[w1[j]].add(w2[j]) 
                     break 
-        visit = {} #False = visited, True = in current path
+        visit = {} #False = done visit, True = visiting
         res = []
-        def dfs(c): #post order with cycle detection 
+        def dfs(c): #postorder with cycle detection 
             if c in visit: 
                 return visit[c]
             visit[c] = True 
             for nei in adj[c]: 
-                if dfs(nei):    #cycle detected
+                if dfs(nei): #cycle detected
                     return True 
             visit[c] = False 
             res.append(c) 
