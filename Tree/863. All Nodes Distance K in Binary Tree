@@ -1,0 +1,34 @@
+class Solution:
+    def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
+        if not root: 
+            return []
+        #build a graph from tree with preorder 
+        adjList = defaultdict(list) 
+        def build(node, parent):
+            if not node:
+                return 
+            if parent: 
+                adjList[node].append(parent)
+            if node.left: 
+                adjList[node].append(node.left) 
+                build(node.left, node)
+            if node.right: 
+                adjList[node].append(node.right)
+                build(node.right, node)
+        build(root, None) 
+        
+        #bfs to find node with distance K 
+        res = []
+        visit = set() 
+        q = deque([(target, 0)])
+        while q: 
+            node, dist = q.popleft() 
+            visit.add(node) 
+            if dist == k: 
+                res.append(node.val) 
+            for neighbor in adjList[node]:
+                if neighbor not in visit:
+                    q.append((neighbor, dist + 1))
+        return res 
+                
+            
