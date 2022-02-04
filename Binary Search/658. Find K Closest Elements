@@ -1,0 +1,30 @@
+class Solution:
+    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+        #can only choose arr[mid] or arr[mid + k] 
+        n = len(arr) 
+        if n == k: 
+            return arr
+        l, r = 0, len(arr) - k 
+        while l < r: 
+            mid = (l + r) // 2 
+            if  x - arr[mid] > arr[mid + k] - x: 
+                l = mid + 1 
+            else:
+                r = mid 
+        return arr[l : l + k]
+-----------------------------------------------------------------------------------
+class Solution:
+    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+        l, r = 0, len(arr)-1
+        # Lamuto way to Quick Select
+        while (r - l + 1) != k:  # till K size window is not found
+            dl = abs(arr[l] - x)
+            dr = abs(arr[r] - x)  
+            
+            # Shrink Window (either from left side or right side)
+            if dl <= dr: 
+                r -= 1
+            else:
+                l += 1
+
+        return arr[l:r+1]
