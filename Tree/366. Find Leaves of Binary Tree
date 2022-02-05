@@ -1,0 +1,47 @@
+class Solution:
+    def findLeaves(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root:
+            return []
+        res = []
+        while root: #keep removing until None 
+            children = [] 
+            root = self.collectRemove(root, children) 
+            res.append(children)
+        return res 
+    def collectRemove(self, node, leaves): 
+            if not node:
+                return None 
+            if not node.left and not node.right: 
+                leaves.append(node.val)
+                return None 
+            node.left = self.collectRemove(node.left, leaves)
+            node.right = self.collectRemove(node.right, leaves) 
+            return node
+------------------------------------------------------------------------
+def findLeaves(self, root):
+    ret = []
+    def dfs(node):
+        if not node:
+            return 0
+        depth = max(dfs(node.left),dfs(node.right))+1
+        if len(ret)<depth: #reach a new depth, append current depth
+            ret.append([])
+        ret[depth-1].append(node.val)
+        return depth
+    dfs(root)
+    return ret
+------------------------------------------------------------------------
+def findLeaves(self, root: TreeNode) -> List[List[int]]:
+    output = collections.defaultdict(list)
+    
+    def dfs(node, layer):
+        if not node: 
+            return layer 
+        left = dfs(node.left, layer)
+        right = dfs(node.right, layer)
+        layer = max(left, right)
+        output[layer].append(node.val)
+        return layer + 1
+    
+    dfs(root, 0)
+    return output.values()
