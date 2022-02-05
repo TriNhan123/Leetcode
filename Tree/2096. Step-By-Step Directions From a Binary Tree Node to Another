@@ -1,12 +1,5 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
 class Solution:
     def getDirections(self, root: Optional[TreeNode], startValue: int, destValue: int) -> str:
-        
         def findPath(root, v, path): 
             if root.val == v: 
                 return True 
@@ -27,19 +20,19 @@ class Solution:
         
         return "".join("U" * len(path_s)) + "".join(reversed(path_d))
 -----------------------------------------------------------------------------
-Google find path in 1 iteration: 
+Google find path in 1 pass:
 class Solution:
     def getDirections(self, root: Optional[TreeNode], startValue: int, destValue: int) -> str:  
-        stack, start, end = [(root, "")], "", ""
-
+        stack= [(root, "")] 
+        start, end = "", ""
         while stack:
             node, path = stack.pop()
-            stack = stack + [(node.left, path + "L")] if node.left else stack
-            stack = stack + [(node.right, path + "R")] if node.right else stack
-
-            start = path if node.val == startValue else start
-            end = path if node.val == destValue else end
-
+            if node.left: 
+                stack += [(node.left, path + "L")]
+            if node.right: 
+                stack += [(node.right, path + "R")]
+            if node.val == startValue: start = path 
+            if node.val == destValue: end = path 
             if start and end:
                 break
 
@@ -48,3 +41,32 @@ class Solution:
             i += 1
 
         return "U" * (len(start) - i) + end[i:]
+--------------------------------------------------------------------------------
+1 pass with queue: 
+class Solution:
+    def getDirections(self, root: Optional[TreeNode], startValue: int, destValue: int) -> str:
+        if root is None:
+            return ""
+
+        dq = collections.deque()
+        dq.append((root, ""))
+        start_found = False
+        dest_found = False
+        start_path = ""
+        dest_path = ""
+        while len(dq) > 0 and not (start_found and dest_found):
+            node, path = dq.popleft()
+            if node.val == startValue:
+                start_found = True
+                start_path = path
+            elif node.val == destValue:
+                dest_found = True
+                dest_path = path
+            if node.left is not None:
+                dq.append((node.left, path + "L"))
+            if node.right is not None:
+                dq.append((node.right, path + "R"))
+        i = 0
+        while len(start_path) > i and len(dest_path) > i and start_path[i] == dest_path[i]:
+            i += 1
+        return (len(start_path) - i) * 'U' + dest_path[i:]
