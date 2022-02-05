@@ -22,50 +22,26 @@ class Solution:
 -----------------------------------------------------------------------------
 Google find path in 1 pass:
 class Solution:
-    def getDirections(self, root: Optional[TreeNode], startValue: int, destValue: int) -> str:  
-        stack= [(root, "")] 
-        start, end = "", ""
-        while stack:
-            node, path = stack.pop()
-            if node.left: 
-                stack += [(node.left, path + "L")]
-            if node.right: 
-                stack += [(node.right, path + "R")]
-            if node.val == startValue: start = path 
-            if node.val == destValue: end = path 
-            if start and end:
-                break
-
-        i = 0 # To ignore common path
-        while i < min(len(start), len(end)) and start[i] == end[i]:
-            i += 1
-
-        return "U" * (len(start) - i) + end[i:]
---------------------------------------------------------------------------------
-1 pass with queue: 
-class Solution:
     def getDirections(self, root: Optional[TreeNode], startValue: int, destValue: int) -> str:
         if root is None:
             return ""
 
-        dq = collections.deque()
-        dq.append((root, ""))
-        start_found = False
-        dest_found = False
+        q = collections.deque()
+        q.append((root, ""))
         start_path = ""
         dest_path = ""
-        while len(dq) > 0 and not (start_found and dest_found):
-            node, path = dq.popleft()
+        while q:
+            node, path = q.popleft()
             if node.val == startValue:
-                start_found = True
                 start_path = path
             elif node.val == destValue:
-                dest_found = True
                 dest_path = path
             if node.left is not None:
-                dq.append((node.left, path + "L"))
+                q.append((node.left, path + "L"))
             if node.right is not None:
-                dq.append((node.right, path + "R"))
+                q.append((node.right, path + "R"))
+            if start_path and dest_path:
+                break
         i = 0
         while len(start_path) > i and len(dest_path) > i and start_path[i] == dest_path[i]:
             i += 1
