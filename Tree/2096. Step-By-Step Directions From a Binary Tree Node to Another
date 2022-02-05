@@ -23,26 +23,23 @@ class Solution:
 Google find path in 1 pass:
 class Solution:
     def getDirections(self, root: Optional[TreeNode], startValue: int, destValue: int) -> str:
-        if root is None:
+        if not root: 
             return ""
-
-        q = collections.deque()
-        q.append((root, ""))
-        start_path = ""
-        dest_path = ""
-        while q:
-            node, path = q.popleft()
-            if node.val == startValue:
-                start_path = path
-            elif node.val == destValue:
-                dest_path = path
-            if node.left is not None:
+        q = deque([(root, "")])
+        start, dest = "", ""
+        while q: 
+            node, path = q.popleft() 
+            if node.val == startValue: 
+                start = path 
+            if node.val == destValue: 
+                dest = path 
+            if node.left: 
                 q.append((node.left, path + "L"))
-            if node.right is not None:
+            if node.right: 
                 q.append((node.right, path + "R"))
-            if start_path and dest_path:
-                break
-        i = 0
-        while len(start_path) > i and len(dest_path) > i and start_path[i] == dest_path[i]:
-            i += 1
-        return (len(start_path) - i) * 'U' + dest_path[i:]
+            if start and dest: break 
+        
+        i = 0 
+        while i < min(len(start), len(dest)) and start[i] == dest[i]: 
+            i += 1 
+        return "U" * (len(start) - i) + dest[i:]
