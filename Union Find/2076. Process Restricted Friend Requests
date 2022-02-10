@@ -1,0 +1,26 @@
+class UF:
+    def __init__(self, n): 
+        self.parent = list(range(n))
+    def find(self, x):
+        if x != self.parent[x]: 
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+    def union(self, x, y): 
+        self.parent[self.find(x)] = self.find(y)
+    
+class Solution:
+    def friendRequests(self, n: int, restrictions: List[List[int]], requests: List[List[int]]) -> List[bool]:
+            uf = UF(n) 
+            ans = []
+            for a, b in requests: 
+                success = True 
+                pa, pb = uf.find(a), uf.find(b) 
+                if pa != pb: 
+                    for x, y in restrictions: 
+                        px, py = uf.find(x), uf.find(y) 
+                        if (px, py) == (pa, pb) or (px, py) == (pb, pa): 
+                            success = False 
+                            break
+                ans.append(success)
+                if success: uf.union(a, b) 
+            return ans
