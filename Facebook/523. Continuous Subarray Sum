@@ -1,0 +1,13 @@
+class Solution:
+    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+        mod = {0: -1}
+        #(0, 0) return True since 1 - (-1) = 2 
+        sum_mod = 0 
+        for i, num in enumerate(nums): 
+            sum_mod = (sum_mod + num) % k 
+            if sum_mod not in mod: 
+                mod[sum_mod] = i 
+            else: 
+                if i - mod[sum_mod] >= 2: 
+                    return True 
+        return False
