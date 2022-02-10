@@ -1,0 +1,32 @@
+  def isCompleteTree(self, root: Optional[TreeNode]) -> bool:
+        if not root:
+            return False 
+        q = deque([(root)])
+        seenNull = False 
+        while q: 
+            node = q.popleft() 
+            if node:
+                if seenNull: 
+                    return False 
+                q.append(node.left)
+                q.append(node.right)
+            else: 
+                seenNull = True 
+        return True
+-----------------------------------------------------------------
+class Solution:
+    def isCompleteTree(self, root: Optional[TreeNode]) -> bool:
+        if not root:
+            return False 
+        q = deque([(root)])
+        seenNull = False 
+        while q: 
+            node = q.popleft() 
+            if not node:
+                seenNull = True
+                continue #don't allow to add children of this null node
+            elif seenNull == True: 
+                return False 
+            q.append(node.left)
+            q.append(node.right) 
+        return True
