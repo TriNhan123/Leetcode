@@ -1,0 +1,53 @@
+O(N^2) 
+    def numFriendRequests(self, ages: List[int]) -> int:
+        count = collections.Counter(ages) 
+        def request(a, b): 
+            return not (b <= a // 2 + 7 or b > a or (b > 100 and a < 100))
+        
+        ans = 0 
+        for a in count: 
+            for b in count: 
+                if request(a, b): 
+                    if a == b: 
+                        ans += count[a] * (count[b] - 1) 
+                    else: 
+                        ans += count[a] * count[b] 
+        return ans
+----------------------------------------------------------------------------
+O(NlogN) 
+    def numFriendRequests(self, ages: List[int]) -> int:
+        def bisect(target):
+            left, right = 0, len(ages)
+
+            while left < right:
+                mid = left + (right - left) // 2
+                
+                
+                if ages[mid] <= target: #<= right most, < left most 
+                    left = mid + 1
+                else:
+                    right = mid
+            return left
+        ans = 0 
+        ages.sort() 
+        for age in ages: 
+            rightBound = bisect(age) 
+            leftBound = bisect(age // 2 + 7)
+            #print(leftBound, rightBound)
+            ans += max(0, rightBound - leftBound - 1)
+        return ans
+---------------------------------------------------------------------------
+O(N) since 1 <= ages[i] <= 120 
+limited number of buckets 
+  def numFriendRequests(self, ages):
+        smaller_eq = [0] * 121
+        for age in ages:
+            smaller_eq[age] += 1
+        
+        for i in range(1, 121):
+            #at each age i, count people with age < i 
+            smaller_eq[i] += smaller_eq[i-1]
+        res = 0
+        for age in ages:
+            res += max(0, smaller_eq[age] - smaller_eq[int(0.5*age)+7] - 1)
+        return res
