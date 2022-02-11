@@ -29,3 +29,27 @@ class Solution:
         i, j = sorted((path.index(p), path.index(q)))   
         k = min(range(i, j), key = lambda k: depth[k])
         return path[k]
+----------------------------------------------------------------------------------
+From LCA I: Need to traverse child nodes first to check existence of p and q 
+2 cases: either found the LCA, or just found p or q 
+def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        def dfs(node): 
+            if not node: 
+                return node, False  
+            
+            ancestor_left, found_left = dfs(node.left) 
+            ancestor_right, found_right = dfs(node.right)
+            
+            if ancestor_left and ancestor_right: #found LCA 
+                return node, True 
+            if node == p or node == q: #only found p or q 
+                return node, ancestor_left or ancestor_right
+            if ancestor_left:
+                return ancestor_left, found_left 
+            else:
+                return ancestor_right, found_right
+                
+        node, found = dfs(root)
+        if not found: 
+            return None
+        return node 
