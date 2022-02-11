@@ -1,5 +1,5 @@
-    passdown: check if parent still exist 
-    return: node if child still exist, none if child deleted 
+    passdown: if parent still exist, passing True to child node, False otherwise 
+    return back to parent: return node if a node still exist, none if deleted
     def delNodes(self, root: Optional[TreeNode], to_delete: List[int]) -> List[TreeNode]:
         ans = []
         to_delete = set(to_delete)
