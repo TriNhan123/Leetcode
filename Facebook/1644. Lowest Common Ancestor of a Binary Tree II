@@ -1,0 +1,31 @@
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        def dfs(node, d): 
+            nonlocal p, q, p_found, q_found
+            if p_found and q_found: return None
+            if node == p: p_found = True
+            if node == q: q_found = True
+                
+            if not node:
+                return 
+            visit(node, d)
+            if node.left: 
+                dfs(node.left, d + 1)
+                visit(node, d) 
+            if node.right: 
+                dfs(node.right, d + 1) 
+                visit(node, d) 
+                
+        def visit(node, d): 
+            nonlocal path, depth
+            path.append(node) 
+            depth.append(d) 
+            
+        p_found, q_found = False, False 
+        path, depth = [], []
+        dfs(root, 0) 
+        if not p_found or not q_found: return None 
+        
+        i, j = sorted((path.index(p), path.index(q)))   
+        k = min(range(i, j), key = lambda k: depth[k])
+        return path[k]
