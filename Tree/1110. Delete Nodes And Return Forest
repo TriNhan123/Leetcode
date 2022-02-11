@@ -1,0 +1,20 @@
+    passdown: check if parent still exist 
+    return: node if child still exist, none if child deleted 
+    def delNodes(self, root: Optional[TreeNode], to_delete: List[int]) -> List[TreeNode]:
+        ans = []
+        to_delete = set(to_delete)
+        def dfs(node, parent_exist):
+            if not node:
+                return None
+            if node.val in to_delete: 
+                node.left = dfs(node.left, False)
+                node.right = dfs(node.right, False) 
+                return None #delete the node
+            else: 
+                if not parent_exist: #node now a tree node
+                    ans.append(node)
+                node.left = dfs(node.left, True) 
+                node.right = dfs(node.right, True) 
+                return node 
+        dfs(root, False)
+        return ans
