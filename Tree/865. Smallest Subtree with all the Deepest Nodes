@@ -1,0 +1,36 @@
+2 pass: find depth then find answer 
+    def subtreeWithAllDeepest(self, root: TreeNode) -> TreeNode:
+        max_d = 0 
+        depth = {}
+        def dfs(node, d): 
+            if not node:
+                depth[node] = -1 
+            if node:
+                depth[node] = d
+                dfs(node.left, d + 1) 
+                dfs(node.right, d + 1)
+        dfs(root, 0)
+        max_depth = max(depth.values())
+        def answer(node): 
+            if not node or depth[node] == max_depth:
+                return node 
+            L, R = answer(node.left), answer(node.right)
+            if L and R: 
+                return node 
+            else:
+                return L or R 
+        return answer(root)
+-------------------------------------------------------------------------
+  def subtreeWithAllDeepest(self, root: TreeNode) -> TreeNode:
+        def dfs(node): 
+            if not node:
+                return None, 0 
+            L, left_d = dfs(node.left) 
+            R, right_d = dfs(node.right) 
+            if left_d > right_d:
+                return L, left_d + 1  
+            if left_d < right_d: 
+                return R, right_d + 1
+            return node, left_d + 1 
+        node, depth = dfs(root)
+        return node
