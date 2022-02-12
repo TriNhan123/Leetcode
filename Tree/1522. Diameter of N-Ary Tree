@@ -1,0 +1,22 @@
+def diameter(self, root: 'Node') -> int:
+        diameter = 0  
+        
+        def traverse(node): 
+            nonlocal diameter 
+            if not node:
+                return 0
+                
+            max1 = max2 = 0 
+            for child in node.children: 
+                depth = traverse(child) 
+                
+                if depth > max1: 
+                    max1, max2 = depth, max1 
+                elif depth > max2: 
+                    max2 = depth
+                    
+            diameter = max(diameter, max1 + max2)
+            return max1 + 1 
+            
+        traverse(root)
+        return diameter
