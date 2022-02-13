@@ -1,0 +1,46 @@
+  def possiblyEquals(self, s1: str, s2: str) -> bool:
+        def getValidPrefixLength(s,start):
+            end = start
+            while end < len(s) and s[end].isdigit(): end += 1
+            return end
+        @lru_cache(None)
+        def possibleLengths(s): 
+            ans = {int(s)}
+            for i in range(1, len(s)):
+                ans |= {x+y for x in possibleLengths(s[:i]) for y in possibleLengths(s[i:])}
+            return ans
+        @lru_cache(None)
+        def dp(i, j, diff): 
+            if i == len(s1) and j == len(s2): return diff == 0 
+            if i < len(s1) and s1[i].isdigit(): 
+                last_i = getValidPrefixLength(s1, i)
+                for L in possibleLengths(s1[i : last_i]): 
+                    if dp(last_i, j, diff - L): 
+                        return True 
+            elif j < len(s2) and s2[j].isdigit(): 
+                last_j = getValidPrefixLength(s2, j)
+                for L in possibleLengths(s2[j : last_j]): 
+                    if dp(i, last_j, diff + L): 
+                        return True 
+            elif diff == 0: 
+                if i == len(s1) or j == len(s2) or s1[i] != s2[j]:
+                    return False 
+                return dp(i + 1, j + 1, 0)
+            elif diff > 0: #s1 can't balance s2 lead
+                if i == len(s1) : 
+                    return False 
+                return dp(i + 1, j, diff - 1) 
+            elif diff < 0: #s2 can't balance s1 lead
+                if j == len(s2):
+                    return False 
+                return dp(i, j + 1, diff + 1) 
+        return dp(0, 0, 0)
+        
+        #s1[1] : n vs s2[2] = 18 
+            #we try n with 1 => dp(i + 1, 2, 0 - L = -1) L = 1 
+            #diff < 0: dp(2, 2, diff + 1 = 0) => t vs s2[2] = 8
+            #diff == 0: dp(i + 1, j, diff - 1) ... : i + 8, j, diff - 8: "o" vs "n" ~ end of s2 => False 
+            
+            #try n with 18 => dp(i, 2, 0 - L = -18) L = 18
+            #diff < 0: dp(i + 1, 2, diff + 1) .... dp(i + 18, 2, -18 + 18) 
+            #diff == 0: dp(i + 1, j + 1, 0) => at end of each string: return True
