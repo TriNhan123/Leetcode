@@ -1,0 +1,15 @@
+def maxSubArrayLen(self, nums: List[int], k: int) -> int:
+        indices = defaultdict(int) #map prefix sum to first seen index
+        prefixSum = 0 
+        res = 0 
+        # indices = {0: -1} or check prefixSum == k 
+        for i, num in enumerate(nums): 
+            prefixSum += num 
+            if prefixSum == k: 
+                res = max(res, i + 1) 
+            if prefixSum - k in indices: 
+                res = max(res, i - indices[prefixSum - k])
+                
+            if prefixSum not in indices: #only do this once since we want longest possible 
+                indices[prefixSum] = i 
+        return res 
