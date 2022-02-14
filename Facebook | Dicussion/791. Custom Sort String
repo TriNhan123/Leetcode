@@ -1,0 +1,12 @@
+#time (order.len + s.len), space (s.len)
+def customSortString(self, order: str, s: str) -> str:
+        
+        count = collections.Counter(s)
+        res = [] 
+        for c in order: 
+            if c in count:
+                res.append(c * count[c])
+                count[c] = 0 
+        for remain in count: 
+            res.append(remain * count[remain])
+        return "".join(res)
