@@ -1,0 +1,21 @@
+def subarraySum(self, nums: List[int], k: int) -> int:
+        #time: O(N), space: O(N) 
+        sums = ans = 0   
+        hash_sums = defaultdict(int) #map sums to occurence 
+        for n in nums: 
+            sums += n
+            if sums == k:
+                 ans += 1 
+            ans += hash_sums[sums - k]
+            hash_sums[sums] += 1 
+        return ans 
+        
+        #time: O(N*N), space: O(1) 
+        count = 0 
+        for i in range(len(nums)): 
+            sums = 0
+            for j in range(i, len(nums)): 
+                sums += nums[j]
+                if sums == k:
+                    count += 1 
+        return count
