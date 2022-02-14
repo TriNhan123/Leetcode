@@ -1,0 +1,30 @@
+from collections import deque
+def bfs(maze, start, end): 
+    ROWS, COLS = len(maze), len(maze[0])
+    def neighbor(r, c): 
+        for nr, nc in [[r  + 1, c], [r - 1, c], [r, c + 1], [r, c - 1]]: 
+            if 0 <= nr < ROWS and 0 <= nc < COLS: 
+                yield nr, nc 
+    
+    q = deque([(start, [(start)])]) #start, path
+    visit = set()
+    visit.add(start)
+    while q: 
+        start, path = q.popleft() 
+        r, c = start 
+        if (start) == (end): 
+            return path 
+        for nr, nc in neighbor(r, c): 
+            if (nr, nc) not in visit and maze[nr][nc] == 0: 
+                visit.add((nr, nc))
+                #create new path for neighbor, not editing original path
+                nei_path = path + [(nr, nc)]
+                q.append(((nr, nc), nei_path))
+    return -1 
+    
+mx1 = [[0, 1, 0, 0, 0], \
+       [0, 1, 0, 1, 0], \
+       [0, 0, 0, 0, 0], \
+       [0, 1, 1, 1, 0], \
+       [0, 0, 0, 1, 0]]
+print(bfs(mx1, (0, 0), (4, 4)))
