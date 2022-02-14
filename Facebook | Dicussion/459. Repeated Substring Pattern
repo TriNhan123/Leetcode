@@ -1,0 +1,12 @@
+def repeatedSubstringPattern(self, s: str) -> bool:
+        repeated = s + s 
+        return s in repeated[1 : -1]
+    
+        #explanation: 
+        # if s has pattern let's say: s = SpSp 
+        # then repeat the s: ss = SpSpSpSp 
+        # destroying first and last pattern ~rotate the string
+        # s2 = SxSpSpSy 
+        # if s has pattern => s in s2 
+        # abababab
+        # xbababax
