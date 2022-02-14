@@ -6,3 +6,19 @@ def lowestCommonAncestor(self, p: 'Node', q: 'Node') -> 'Node':
             p1 = p1.parent if p1.parent else q 
             p2 = p2.parent if p2.parent else p 
         return p1
+
+Proof: 
+dist: LCA -> root = a 
+        p -> lca = b 
+        q -> lca = c 
+        
+        p -> root = b + a 
+        => switch to q and since q to LCA = c 
+            -> p travel b + a + c to LCA  
+            
+        q -> root: c + a 
+        => switch to p and since p to LCA = b 
+            -> q travel c + a + b to LCA 
+            
+        => when p1 = p2, they both travel the same distance to LCA 
+        => they meet at LCA instead of a random node on their path
