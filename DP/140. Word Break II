@@ -1,0 +1,15 @@
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        @lru_cache(None) 
+        def dfs(s): 
+            if not s:
+                return [[]]
+            memo_s = []
+            for endIndex in range(1, len(s) + 1): 
+                word = s[ : endIndex] 
+                if word in wordDict: 
+                    for word_postfix in dfs(s[endIndex : ]): 
+                        memo_s.append([word] + word_postfix)
+            return memo_s 
+        
+        return [" ".join(words) for words in dfs(s)]
