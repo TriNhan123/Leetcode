@@ -1,0 +1,29 @@
+#time O(N), space O(1) 
+def calculate(self, s: str) -> int:
+        res = lastNum = currNum = 0
+        operator = "+"
+        for char in s + '+': 
+            if char.isdigit(): 
+                currNum = currNum * 10 + (ord(char) - ord('0'))
+            elif not char.isspace(): 
+                if operator == "+" or operator == "-": 
+                    res += lastNum 
+                    lastNum = currNum if operator == "+" else -currNum
+                elif operator == "*" : 
+                    lastNum = lastNum * currNum
+                elif operator == "/": 
+                    lastNum = int(lastNum / currNum)
+                operator = char 
+                currNum = 0 
+        return res + lastNum
+        
+        # input: 3-2*4+5+
+        # 0: res = 0 pre = 0 cur = 3 op = + 
+        # 1: res = 0, pre = 3, cur = 0, op = -
+        # 2: res = 0, pre = 3, cur = 2, op = - 
+        # 3: res = +3, prev = -2, cur = 0, op = * 
+        # 4: res = 3, prev = -2, cur = 4, op = *
+        # 5: res = 3, prev = -2 * 4, cur = 0, op = + 
+        # 6: res = 3, prev = -8, cur = 5, op = + 
+        # 7: res = 3 - 8, prev = 5, cur = 0, op = + 
+        # return 3 - 8 + 5 
