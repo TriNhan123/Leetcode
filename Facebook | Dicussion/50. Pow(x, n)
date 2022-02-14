@@ -1,14 +1,15 @@
-class Solution:
-    def myPow(self, x: float, n: int) -> float:
-        if n == 0: 
-            return 1 
+
+Iterative: time O(log N), space: O(1) 
+def myPow(self, x: float, n: int) -> float:
         if n < 0: 
-            return 1 / self.myPow(x, -n) 
-        if n % 2 != 0:
-            return x * self.myPow(x, n - 1) 
-        return self.myPow(x * x, n / 2)
-    
-        # 2 10 = myPow(4, 5) = 4 * myPow(4, 4) 
-        #= 4 * myPow(16, 2) 
-        #= 4 * myPow(256, 1) 
-        #= 4 * 256 * myPow(256, 0) = 1024 * 1 
+            x = 1/x 
+            n = -n 
+        pow = 1 
+        while n != 0:
+            if n % 2 != 0: 
+                pow *= x 
+                n -= 1 
+            else: 
+                x *= x 
+                n //= 2 
+        return pow 
