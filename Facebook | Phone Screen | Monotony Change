@@ -1,0 +1,19 @@
+def monotonic_changes(nums):
+    n = len(nums)
+    ans, incr, decr = 0, False, False 
+    
+    for i in range(n - 1):
+        if nums[i] > nums[i + 1]:
+            if incr: 
+                ans += 1 
+                incr = False 
+            decr = True 
+        elif nums[i] < nums[i + 1]: #else: 
+            if decr: 
+                ans += 1 
+                decr = False 
+            incr = True 
+    return ans 
+        
+array = [2,3,4,5,6,5,4,1], #[-2,-2,1,1,-1]
+print(monotonic_changes(array))
