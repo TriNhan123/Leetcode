@@ -4,7 +4,8 @@ def calculate(self, s: str) -> int:
         for c in s: 
             if c.isdigit(): 
                 cur = cur * 10 + int(c) 
-            elif c in "+-": xu ly curr ngay lap tuc, update dau va reset cur sau khi xu ly
+            elif c in "+-": 
+                #2 - 3 + : c = +, res = 2, cur = 3, op = - => xu ly 2 + (-) * 3 
                 res += op * cur 
                 op = 1 if c == "+" else - 1 
                 cur = 0 
