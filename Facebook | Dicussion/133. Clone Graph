@@ -9,5 +9,6 @@ def cloneGraph(self, node: 'Node') -> 'Node':
                 if nb not in node_copy: 
                     node_copy[nb] = Node(nb.val, [])
                     q.append(nb) 
+                #after create a copy of neighbor, we can add it to our node's copy's neighbor
                 node_copy[n].neighbors.append(node_copy[nb])
         return node_copy[node]
