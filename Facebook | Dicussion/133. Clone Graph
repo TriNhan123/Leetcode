@@ -1,0 +1,13 @@
+def cloneGraph(self, node: 'Node') -> 'Node':
+        if not node:
+            return node
+        node_copy = {node: Node(node.val, [])} #map visited node to its copy 
+        q = deque([node])
+        while q: 
+            n = q.popleft() 
+            for nb in n.neighbors: 
+                if nb not in node_copy: 
+                    node_copy[nb] = Node(nb.val, [])
+                    q.append(nb) 
+                node_copy[n].neighbors.append(node_copy[nb])
+        return node_copy[node]
