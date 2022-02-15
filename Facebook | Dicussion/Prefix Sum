@@ -1,0 +1,32 @@
+525. Contiguous Array
+    def findMaxLength(self, nums: List[int]) -> int:
+        # 0  1  0  0  1 
+        #-1  0          => sum = 0 => max = 2 
+        #-1          -1 => max = 4, take the first encounter index 
+        
+        sum_index = defaultdict(int)
+        res, sums = 0, 0 
+        for i, num in enumerate(nums): 
+            sums += num if num == 1 else -1 
+            if sums == 0: 
+                res = max(res, i + 1)
+            if sums in sum_index: 
+                res = max(res, i - sum_index[sums])
+            else: 
+                sum_index[sums] = i 
+        return res
+----------------------------------------------------------------------
+325. Maximum Size Subarray Sum Equals k
+    def maxSubArrayLen(self, nums: List[int], k: int) -> int:
+        indices = defaultdict(int) #map prefix sum to first seen index
+        prefixSum = 0 
+        res = 0 
+        for i, num in enumerate(nums): 
+            prefixSum += num 
+            if prefixSum == k: 
+                res = max(res, i + 1) 
+            if prefixSum - k in indices: 
+                res = max(res, i - indices[prefixSum - k])
+            if prefixSum not in indices: 
+                indices[prefixSum] = i 
+        return res
