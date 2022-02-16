@@ -1,0 +1,18 @@
+    def __init__(self, w: List[int]):
+        self.prefix = w
+        for i in range(1, len(self.prefix)):
+            self.prefix[i] += self.prefix[i - 1]
+            
+    def pickIndex(self) -> int:
+        l, r = 0, len(self.prefix) - 1
+        target = self.prefix[-1] * random.random()
+        while l < r:
+            mid = (l + r) // 2
+            if target <= self.prefix[mid]:
+                r = mid
+            else:
+                l = mid + 1
+        # for i, prefix in enumerate(self.prefix): 
+        #     if target < prefix_sum: 
+        #         return i 
+        return l
