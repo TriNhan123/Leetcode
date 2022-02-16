@@ -6,7 +6,6 @@ class Solution:
               "rook"  : ((-1, 0), (0, -1), (0, 1), (1, 0))}
         
         board = [[set() for _ in range(8)] for _ in range(8)]
-        n = len(pieces)
         for pos in positions:
             # adjust the positions to make them start with 0 
             pos[0] -= 1
