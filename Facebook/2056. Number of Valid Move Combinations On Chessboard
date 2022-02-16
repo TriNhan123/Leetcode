@@ -1,7 +1,7 @@
 class Solution:
     def countCombinations(self, pieces: List[str], positions: List[List[int]]) -> int:
         n = len(pieces)
-        mp = {"bishop": ((-1, -1), (-1, 1), (1, -1), (1, 1)),
+        moves = {"bishop": ((-1, -1), (-1, 1), (1, -1), (1, 1)),
               "queen" : ((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)), 
               "rook"  : ((-1, 0), (0, -1), (0, 1), (1, 0))}
         
@@ -22,14 +22,14 @@ class Solution:
                 ans += dfs(i + 1) # try to find the move of the next piece
                 board[r][c].clear() # undo the move for the current piece
                 
-            for dr, dc in mp[pieces[i]]:
+            for dr, dc in moves[pieces[i]]:
                 nr, nc = r + dr, c + dc 
-                count = 1  
-                while 0 <= nr < 8 and 0 <= nc < 8 and count not in board[nr][nc]:
+                time = 1  
+                while 0 <= nr < 8 and 0 <= nc < 8 and time not in board[nr][nc]:
                     # if board[nr][nc] is available at time count, the move is valid
-                    board[nr][nc].add(count) 
-                    count += 1
-                    rest = set(range(count, 8))
+                    board[nr][nc].add(time) 
+                    time += 1
+                    rest = set(range(time, 8))
                     if not board[nr][nc] & rest:
                         # if the board is available for the rest of the time, the move might stop here
                         board[nr][nc] |= rest
@@ -38,13 +38,13 @@ class Solution:
                     nr += dr
                     nc += dc
                 # undo the last update
-                count -= 1
+                time -= 1
                 nr -= dr
                 nc -= dc
-                while count:
+                while time:
                     # undo the updates of the piece
-                    board[nr][nc].remove(count)
-                    count -= 1
+                    board[nr][nc].remove(time)
+                    time -= 1
                     nr -= dr
                     nc -= dc
             return ans
