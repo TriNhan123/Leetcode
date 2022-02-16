@@ -1,0 +1,27 @@
+Think of why we are given BST : so we don't traverse every nodes 
+Bad: traverse every nodes
+      res = 0 
+      def dfs(node): 
+            nonlocal res 
+            if not node:
+                return 
+            if low <= node.val and node.val <= high: 
+                res += node.val 
+            dfs(node.left)
+            dfs(node.right)
+        dfs(root)
+        return res 
+Good: only go left/right if node.val > low or < high
+        res = 0
+        def dfs(node): 
+            nonlocal res 
+            if not node:
+                return 
+            if low <= node.val <= high: 
+                res += node.val 
+            if low < node.val: 
+                dfs(node.left)
+            if node.val < high: 
+                dfs(node.right)
+        dfs(root)
+        return res
