@@ -1,0 +1,30 @@
+time: O(len(encoded1) + len(encoded2)), space same withh time if no similar product 
+def findRLEArray(self, encoded1: List[List[int]], encoded2: List[List[int]]) -> List[List[int]]:
+        res = []
+        i = j = 0 
+        freq1, freq2 = encoded1[0][1], encoded2[0][1]
+
+        while i < len(encoded1) and j < len(encoded2):
+            e1_val= encoded1[i][0]
+            e2_val= encoded2[j][0]
+
+            product_val = e1_val * e2_val
+            product_freq = min(freq1, freq2)
+
+            freq1 -= product_freq
+            freq2 -= product_freq 
+            
+            if freq1 == 0: 
+                i += 1 
+                freq1 = encoded1[i][1] if i < len(encoded1) else 0 
+            if freq2 == 0: 
+                j += 1 
+                freq2 = encoded2[j][1] if j < len(encoded2) else 0 
+            
+
+            if not res or res[-1][0] != product_val:
+                res.append([product_val, product_freq])
+            else:
+                res[-1][1] += product_freq
+    
+        return res
