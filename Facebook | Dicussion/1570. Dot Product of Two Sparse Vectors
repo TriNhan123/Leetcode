@@ -1,0 +1,45 @@
+    O(n) time, O(m) space, m = number of nonzeroes element 
+    def __init__(self, nums: List[int]):
+        self.pair = [(i, n) for i, n in enumerate(nums) if n]
+
+    O(m + n) time , O(1) space 
+    def dotProduct(self, vec: 'SparseVector') -> int:
+        i = j = res = 0 
+        while i < len(self.pair) and j < len(vec.pair): 
+            if self.pair[i][0] == vec.pair[j][0]:
+                res += self.pair[i][1] * vec.pair[j][1]
+                i += 1 
+                j += 1 
+            elif self.pair[i][0] < vec.pair[j][0]: 
+                i += 1 
+            else: 
+                j += 1 
+        return res 
+----------------------------------------------------------------------
+    def __init__(self, nums: List[int]):
+        self.pair = [(i, n) for i, n in enumerate(nums) if n]
+    
+    if one of the vector is so small: 
+    time: O( min(m, n) * log(max(m, n)) )
+    def dotProduct(self, vec: 'SparseVector') -> int:
+        def binarysearch(arr, target, start, end): 
+            while start <= end: 
+                mid = (start + end) // 2 
+                if arr[mid][0] == target: 
+                    return mid 
+                elif arr[mid][0] > target: 
+                    end = mid - 1 
+                else: 
+                    start = mid + 1 
+            return -1
+            
+        s, b = self.non_zeros, vec.non_zeros    #s = smaller, b = bigger 
+        if len(s) > len(b): 
+            s, b = b, s 
+        start = res = 0
+        for i, n in s: 
+            b_index = binarysearch(b, i, start, len(b) - 1)
+            if b_index != -1: 
+                res += b[b_index][1] * n
+                start = b_index + 1 
+        return res
