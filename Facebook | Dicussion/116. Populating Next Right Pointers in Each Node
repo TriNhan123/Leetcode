@@ -1,0 +1,32 @@
+  O(N) time, O(N) space 
+  def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
+        if not root:
+            return root
+        q = deque([root])
+        while q: 
+            size = len(q) #have to save len(q) before popping 
+            for i in range(size):
+                node = q.popleft()
+                if i < size - 1: 
+                    node.next = q[0]
+                if node.left: 
+                    q.append(node.left)
+                if node.right: 
+                    q.append(node.right) 
+        return root 
+------------------------------------------------------------------
+  O(N) time, O(1) space 
+  def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
+        if not root:
+            return root 
+        leftmost = root
+        while leftmost.left: 
+            head = leftmost 
+            while head: 
+                head.left.next = head.right 
+                if head.next: 
+                    head.right.next = head.next.left 
+                head = head.next
+            leftmost = leftmost.left 
+        return root 
+        
