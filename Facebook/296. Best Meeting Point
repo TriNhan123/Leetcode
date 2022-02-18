@@ -1,0 +1,28 @@
+  def minTotalDistance(self, grid: List[List[int]]) -> int:
+        ROWS, COLS = len(grid), len(grid[0])
+        def getHouse(): #get row, col of every house
+            rows, cols = [], []
+            for r in range(ROWS): 
+                for c in range(COLS): 
+                    if grid[r][c] == 1: 
+                        rows.append(r) 
+                        cols.append(c) 
+            return rows, cols 
+        def getMedianHouse(rows, cols): #find median house 
+            rows.sort(); cols.sort() 
+            r_median = rows[len(rows) // 2]
+            c_median = cols[len(cols) // 2]
+            return r_median, c_median 
+        rows, cols = getHouse() 
+        r_median, c_median = getMedianHouse(rows, cols) 
+        res = 0 
+        for r in rows: 
+            res += abs(r - r_median) 
+        for c in cols: 
+            res += abs(c - c_median) 
+        return res
+        
+#median house work: 
+A B, point should be between A, B 
+A B C, point should be B 
+A B C D, point should be between B, C 
