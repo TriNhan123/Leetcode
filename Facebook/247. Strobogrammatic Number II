@@ -1,0 +1,13 @@
+def findStrobogrammatic(self, n: int) -> List[str]:
+        pairs = [['0', '0'], ['1', '1'], ['8', '8'], ['6', '9'], ['9', '6']]
+        currLen = n % 2 
+        q = ['0', '1', '8'] if currLen == 1 else [""]
+        while currLen < n: 
+            currLen += 2 
+            next_level = []
+            for num in q: 
+                for pair in pairs: 
+                    if currLen != n or pair[0] != '0': 
+                        next_level.append(pair[0] + num + pair[1])
+            q = next_level 
+        return q
