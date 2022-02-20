@@ -1,0 +1,30 @@
+from collections import defaultdict
+
+
+def find_product_similarilties(products):
+
+  product_dict = defaultdict(list)
+  for similar_product in products:
+    for i in range(len(similar_product)):
+      for j in range(i, len(similar_product)):
+        if similar_product[j] != similar_product[i]:
+          product_dict[similar_product[i]].append(similar_product[j])
+          product_dict[similar_product[j]].append(similar_product[i])
+  counter = defaultdict(list)
+  for product in product_dict:  
+      for unique_product in set(product_dict[product]):
+        counter[product].append((unique_product, product_dict[product].count(unique_product)))
+  result = defaultdict(list)
+  for product in counter: 
+      max_value = max(counter[product])[1]
+      for i in counter[product]: 
+          if i[1] == max_value: 
+              result[product].append(i[0])
+  return result
+
+
+products = [['Casper', 'Purple', 'Wayfair'],['Purple', 'Wayfair', 'Tradesy'],['Wayfair', 'Tradesy', 'Peloton']]
+find_product_similarilties(products)
+print(find_product_similarilties(products))
+
+time: n * m^2 where n is number of list and m is number of product in each list 
