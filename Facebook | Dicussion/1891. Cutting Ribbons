@@ -1,0 +1,26 @@
+def maxLength(self, ribbons: List[int], k: int) -> int:
+        if k > sum(ribbons): 
+            return 0 
+        def countRibbons(length): 
+            return sum(i // length for i in ribbons)
+        L, R = 1, max(ribbons) + 1
+        while L < R: 
+            mid = (L + R) // 2 
+            print(L, R, mid)
+            if countRibbons(mid) >= k:
+                L = mid + 1 
+            else: 
+                R = mid
+            
+        return L - 1
+        # [10, 10, 10] k = 3, R = max(ribbons) 
+        # res = 10 
+        # l      r     m 
+        # 1     10     5 
+        # 6     10     8
+        # 9     10     9 
+        
+        # l      r     m     R = max(ribbons) + 1 
+        # 1     11     6 
+        # 7     11     9
+        # 10    11     10 
