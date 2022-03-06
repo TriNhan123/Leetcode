@@ -1,0 +1,55 @@
+  O(N * 4 ^ N), O(N ^ 2)  
+  def addOperators(self, num: str, target: int) -> List[str]:
+        ans = []
+        def calculate(s): 
+            numStack = []
+            operation = "+"
+            currNum = 0
+            for char in s+"+": 
+                if char.isdigit(): 
+                    currNum = currNum * 10 + int(char)
+                else:
+                    if operation == "*": numStack.append(numStack.pop()*currNum)
+                    elif operation == "-": numStack.append(-currNum)
+                    else: numStack.append(currNum)
+                    operation = char 
+                    currNum = 0
+            return sum(numStack)
+        
+        def backtrack(index, path):
+            if len(path) == 1 and path == "0":
+                return
+            if len(path) >= 2 and path[-2:] in ["+0", "-0", "*0"]:
+                return
+            if index == len(num) - 1:
+                if calculate(path + num[index]) == target:
+                    ans.append(path + num[index])
+                return
+            backtrack(index+1, path+num[index]+"*")
+            backtrack(index+1, path+num[index]+"+")
+            backtrack(index+1, path+num[index]+"-")
+            backtrack(index+1, path+num[index])
+        backtrack(0, "")
+        return ans
+-------------------------------------------------------------------------------------------
+  O(N * 4 ^ N), O(N)
+  def addOperators(self, s: str, target: int) -> List[str]:
+        ans = []
+        def backtrack(i, path, result, prev): 
+            if i == len(s): 
+                if result == target: 
+                    ans.append(path)
+                return 
+            for j in range(i, len(s)):
+
+                if j > i and s[i] == '0': break  
+                num = int(s[i : j + 1])
+                if i == 0: 
+                    backtrack(j + 1, path + str(num), result + num, num )
+                else: 
+                    backtrack(j + 1, path + "+" + str(num), result + num, num) 
+                    backtrack(j + 1, path + "-" + str(num), result - num, -num) 
+                    backtrack(j + 1, path + "*" + str(num), result - prev + prev * num, prev * num)
+
+        backtrack(0, "", 0, 0) 
+        return ans 
