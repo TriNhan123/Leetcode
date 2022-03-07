@@ -1,23 +1,5 @@
-"""
-# Definition for a Node.
-class Node:
-    def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
-        self.val = int(x)
-        self.next = next
-        self.random = random
-"""
-
-class Solution:
+O(N) time, O(N) space
     def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
-        #want to create a node before random or next can point to 
-        #visit node
-            #add node into hash map
-                #we can initialize hashmap with default FUNCTION node
-                #each key of hashmap is a node 
-            #point hashed node's next to another hashed node 
-                #not the original next node  
-            #visit node's next
-        #what if we need a NULL node to point to but we don't have it 
         storeCopyNode = defaultdict(lambda: Node(0))
         storeCopyNode[None] = None 
         curr = head 
@@ -27,3 +9,20 @@ class Solution:
             storeCopyNode[curr].random = storeCopyNode[curr.random] 
             curr = curr.next 
         return storeCopyNode[head]
+-------------------------------------------------------------------------------
+O(N) time, O(1) space, put copy node next to original node in LL
+    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        dummy = copy = Node(-1, head, None) 
+        while head: #put copy node next to ori node
+            tmp = head.next 
+            head.next = Node(head.val, None, head.random)
+            copy.next = head.next
+            head = tmp 
+            copy = copy.next
+        copy = dummy.next 
+        
+        while copy: #put random pointer to random's copy
+            if copy.random: 
+                copy.random = copy.random.next
+            copy = copy.next
+        return dummy.next
