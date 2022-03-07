@@ -19,8 +19,8 @@ O(N) time, O(1) space, put copy node next to original node in LL
             copy.next = head.next
             head = tmp 
             copy = copy.next
+            
         copy = dummy.next 
-        
         while copy: #put random pointer to random's copy
             if copy.random: 
                 copy.random = copy.random.next
