@@ -1,0 +1,23 @@
+You are given a method signature of List<String> uniquePaths(int n), where n is the size of an n x n 2-dimensional array. 
+You have to return a dynamic array of all possible paths, 
+where you may only go down and right--a single move right will be represented by the character R, 
+and a single move down will be represented by the character D. 
+Each string represents each possible path from the top-most index to the bottom-most index. 
+Backtracking may be used to achieve this.
+
+#no need memo or checking cycle here since we can't go back to previous, only go R or D 
+O(2 ^ N) 
+def uniquePath(n): 
+    output = []
+    src, dst = (0, 0), (n - 1, n - 1)
+    def backtrack(r, c, path): 
+        if (r, c) == dst: 
+            output.append(path) 
+            return 
+        if r + 1 < n: 
+            backtrack(r + 1, c, path + "D")
+        if c + 1 < n:
+            backtrack(r, c + 1, path + "R")
+    backtrack(0, 0, "")
+    return output
+print(uniquePath(4))
