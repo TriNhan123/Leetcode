@@ -1,0 +1,17 @@
+O(N logM) , M items in 1 row, N = num of rows
+def leftMostColumnWithOne(self, binaryMatrix: 'BinaryMatrix') -> int:
+        rows, cols = binaryMatrix.dimensions() 
+        leftMost = cols
+        for row in range(rows): 
+            L, R = 0, leftMost - 1
+            while L < R: 
+                mid = (L + R) // 2 
+                if binaryMatrix.get(row, mid) == 0:
+                    L = mid + 1 
+                else: 
+                    R = mid 
+            if binaryMatrix.get(row, L) == 1: 
+                leftMost = min(leftMost, L) 
+        return leftMost if leftMost < cols else -1
+        #edge cases: [[0, 0], [0, 0]] = -1, [[0, 0], [0, 1]] = 1
+-----------------------------------------------------------------------------
