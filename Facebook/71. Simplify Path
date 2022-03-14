@@ -1,9 +1,6 @@
-class Solution:
     def simplifyPath(self, path: str) -> str:
         stack = [] 
         for portion in path.split("/"):
-            #check ".." first, only then we check stack
-            #not checking them at the same time. 
             if portion == "..": 
                 if stack: 
                     stack.pop() 
@@ -13,24 +10,43 @@ class Solution:
                 stack.append(portion) 
             print(stack)
         return "/" + "/".join(stack)
-        ------------------------------------------------------
- class Solution:
+------------------------------------------------------------------------
     def simplifyPath(self, path: str) -> str:
-        #without stack 
         answer = ''
         to_go_back = 0 # the number of directories to 'pop'
         path = path.split('/')
         for i in range(len(path)-1, -1, -1):
             dir = path[i]
-            print(to_go_back)
             if dir == '' or dir == '.':
                 continue
             elif dir == '..':
                 to_go_back += 1
-            #when loop executed and goback != 0, we skip path[i] 
             elif to_go_back != 0: 
-            #if this is a real directory and we have directories we still need to pop, pop it
                 to_go_back -= 1
             else:
                 answer = '/' + dir + answer
-        return answer if answer else '/' # if you're left with the empty string, return '/'
+        return answer if answer else '/' 
+------------------------------------------------------------------------
+variation: 
+current                 change              output
+/                       /foo                /foo
+/baz                    /bar                /bar
+/x/y                    ../p/../q           /x/q
+/fb/anin                ../abc/def          /facebook/abc/def
+
+    def change_path(current: str, changed: str) -> str:
+        if not changed:
+            return current
+        if changed[0] == "/":
+            current = ""
+
+        path = []
+
+        for segment in (current + "/" + changed).split("/"):
+            if segment == "..":
+                if path:
+                    path.pop()
+            elif segment and segment != ".":
+                path.append(segment)
+
+        return "/" + "/".join(path)
