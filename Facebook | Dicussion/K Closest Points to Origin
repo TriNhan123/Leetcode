@@ -21,7 +21,7 @@
             res.append(point)
         return res
 -------------------------------------------------------------------------------
-#time O(N), space O(N) 
+#time O(N), space O(1) 
     def kClosest(self, P, k):
         euclidean = lambda p : p[0]**2 + p[1]**2
         def quickSelect(l, r): 
